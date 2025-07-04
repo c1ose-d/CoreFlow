@@ -1,0 +1,72 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.0-preview.5.25277.114" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CoreFlow.Application\CoreFlow.Application.csproj" />
+    <ProjectReference Include="..\CoreFlow.Domain\CoreFlow.Domain.csproj" />
+    <ProjectReference Include="..\CoreFlow.Persistence\CoreFlow.Persistence.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="CoreFlow.Application.Interfaces" />
+    <Using Include="CoreFlow.Application.UseCases.Dve.CreateDveBlock" />
+    <Using Include="CoreFlow.Application.UseCases.Dve.CreateDveId" />
+    <Using Include="CoreFlow.Application.UseCases.Dve.DeleteDveBlock" />
+    <Using Include="CoreFlow.Application.UseCases.Dve.DeleteDveId" />
+    <Using Include="CoreFlow.Application.UseCases.Dve.GetDveBlocks" />
+    <Using Include="CoreFlow.Application.UseCases.Dve.GetDveIds" />
+    <Using Include="CoreFlow.Application.UseCases.Dve.UpdateDveBlock" />
+    <Using Include="CoreFlow.Application.UseCases.Dve.UpdateDveId" />
+    <Using Include="CoreFlow.Application.UseCases.Linux.CreateLinuxBlock" />
+    <Using Include="CoreFlow.Application.UseCases.Linux.CreateLinuxCommand" />
+    <Using Include="CoreFlow.Application.UseCases.Linux.DeleteLinuxBlock" />
+    <Using Include="CoreFlow.Application.UseCases.Linux.DeleteLinuxCommand" />
+    <Using Include="CoreFlow.Application.UseCases.Linux.GetLinuxBlocks" />
+    <Using Include="CoreFlow.Application.UseCases.Linux.GetLinuxCommands" />
+    <Using Include="CoreFlow.Application.UseCases.Linux.UpdateLinuxBlock" />
+    <Using Include="CoreFlow.Application.UseCases.Linux.UpdateLinuxCommand" />
+    <Using Include="CoreFlow.Application.UseCases.Reboot.AddRebootCommand" />
+    <Using Include="CoreFlow.Application.UseCases.Reboot.AddRebootList" />
+    <Using Include="CoreFlow.Application.UseCases.Reboot.CreateReboot" />
+    <Using Include="CoreFlow.Application.UseCases.Reboot.DeleteReboot" />
+    <Using Include="CoreFlow.Application.UseCases.Reboot.DeleteRebootCommand" />
+    <Using Include="CoreFlow.Application.UseCases.Reboot.DeleteRebootListEntry" />
+    <Using Include="CoreFlow.Application.UseCases.Reboot.GetRebootCommands" />
+    <Using Include="CoreFlow.Application.UseCases.Reboot.GetRebootList" />
+    <Using Include="CoreFlow.Application.UseCases.Reboot.GetReboots" />
+    <Using Include="CoreFlow.Application.UseCases.Reboot.UpdateReboot" />
+    <Using Include="CoreFlow.Application.UseCases.Reboot.UpdateRebootCommand" />
+    <Using Include="CoreFlow.Application.UseCases.Reboot.UpdateRebootListEntry" />
+    <Using Include="CoreFlow.Application.UseCases.Server.CreateServer" />
+    <Using Include="CoreFlow.Application.UseCases.Server.CreateServerBlock" />
+    <Using Include="CoreFlow.Application.UseCases.Server.DeleteServer" />
+    <Using Include="CoreFlow.Application.UseCases.Server.DeleteServerBlock" />
+    <Using Include="CoreFlow.Application.UseCases.Server.GetServerBlocks" />
+    <Using Include="CoreFlow.Application.UseCases.Server.GetServers" />
+    <Using Include="CoreFlow.Application.UseCases.Server.UpdateServer" />
+    <Using Include="CoreFlow.Application.UseCases.Server.UpdateServerBlock" />
+    <Using Include="CoreFlow.Domain.Dve" />
+    <Using Include="CoreFlow.Domain.Linux" />
+    <Using Include="CoreFlow.Domain.Reboot" />
+    <Using Include="CoreFlow.Domain.Server" />
+    <Using Include="CoreFlow.Infrastructure.Dve" />
+    <Using Include="CoreFlow.Infrastructure.Linux" />
+    <Using Include="CoreFlow.Infrastructure.Reboot" />
+    <Using Include="CoreFlow.Infrastructure.Server" />
+    <Using Include="CoreFlow.Persistence.Contexts" />
+    <Using Include="CoreFlow.Persistence.Models" />
+    <Using Include="Microsoft.EntityFrameworkCore" />
+    <Using Include="Microsoft.Extensions.Caching.Memory" />
+    <Using Include="Microsoft.Extensions.DependencyInjection" />
+  </ItemGroup>
+
+</Project>
