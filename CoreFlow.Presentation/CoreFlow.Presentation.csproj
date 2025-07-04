@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.0-preview.5.25277.114" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.0-preview.5.25277.114">
       <PrivateAssets>all</PrivateAssets>
@@ -33,6 +34,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Using Include="CommunityToolkit.Mvvm.ComponentModel" />
     <Using Include="CoreFlow.Application.UseCases.Linux.CreateLinuxBlock" />
     <Using Include="CoreFlow.Infrastructure" />
     <Using Include="CoreFlow.Persistence.Contexts" />
