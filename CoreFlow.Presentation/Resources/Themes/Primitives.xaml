@@ -1,0 +1,15 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!--Focus Rect-->
+    <Style x:Key="FocusRect" >
+        <Setter Property="Control.Template" >
+            <Setter.Value>
+                <ControlTemplate>
+                    <Grid>
+                        <Border BorderBrush="{DynamicResource FocusStrokeColorInnerBrush}" BorderThickness="3" />
+                        <Border BorderBrush="{DynamicResource FocusStrokeColorOuterBrush}" BorderThickness="2" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

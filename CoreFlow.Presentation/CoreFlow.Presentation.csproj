@@ -6,7 +6,28 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\Fonts\Segoe Fluent Icons.ttf" />
+    <None Remove="Resources\Fonts\Segoe-UI-Variable-Static-Display-Bold.ttf" />
+    <None Remove="Resources\Fonts\Segoe-UI-Variable-Static-Display-Light.ttf" />
+    <None Remove="Resources\Fonts\Segoe-UI-Variable-Static-Display-Semibold.ttf" />
+    <None Remove="Resources\Fonts\Segoe-UI-Variable-Static-Display-Semilight.ttf" />
+    <None Remove="Resources\Fonts\Segoe-UI-Variable-Static-Display.ttf" />
+    <None Remove="Resources\Fonts\Segoe-UI-Variable-Static-Small-Bold.ttf" />
+    <None Remove="Resources\Fonts\Segoe-UI-Variable-Static-Small-Light.ttf" />
+    <None Remove="Resources\Fonts\Segoe-UI-Variable-Static-Small-Semibold.ttf" />
+    <None Remove="Resources\Fonts\Segoe-UI-Variable-Static-Small-Semilight.ttf" />
+    <None Remove="Resources\Fonts\Segoe-UI-Variable-Static-Small.ttf" />
+    <None Remove="Resources\Fonts\Segoe-UI-Variable-Static-Text-Bold.ttf" />
+    <None Remove="Resources\Fonts\Segoe-UI-Variable-Static-Text-Light.ttf" />
+    <None Remove="Resources\Fonts\Segoe-UI-Variable-Static-Text-Semibold.ttf" />
+    <None Remove="Resources\Fonts\Segoe-UI-Variable-Static-Text-Semilight.ttf" />
+    <None Remove="Resources\Fonts\Segoe-UI-Variable-Static-Text.ttf" />
+    <None Remove="Resources\Fonts\SegoeUI-VF.ttf" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
@@ -31,6 +52,23 @@
     <Resource Include="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\Fonts\Segoe Fluent Icons.ttf" />
+    <Resource Include="Resources\Fonts\Segoe-UI-Variable-Static-Display-Bold.ttf" />
+    <Resource Include="Resources\Fonts\Segoe-UI-Variable-Static-Display-Light.ttf" />
+    <Resource Include="Resources\Fonts\Segoe-UI-Variable-Static-Display-Semibold.ttf" />
+    <Resource Include="Resources\Fonts\Segoe-UI-Variable-Static-Display-Semilight.ttf" />
+    <Resource Include="Resources\Fonts\Segoe-UI-Variable-Static-Display.ttf" />
+    <Resource Include="Resources\Fonts\Segoe-UI-Variable-Static-Small-Bold.ttf" />
+    <Resource Include="Resources\Fonts\Segoe-UI-Variable-Static-Small-Light.ttf" />
+    <Resource Include="Resources\Fonts\Segoe-UI-Variable-Static-Small-Semibold.ttf" />
+    <Resource Include="Resources\Fonts\Segoe-UI-Variable-Static-Small-Semilight.ttf" />
+    <Resource Include="Resources\Fonts\Segoe-UI-Variable-Static-Small.ttf" />
+    <Resource Include="Resources\Fonts\Segoe-UI-Variable-Static-Text-Bold.ttf" />
+    <Resource Include="Resources\Fonts\Segoe-UI-Variable-Static-Text-Light.ttf" />
+    <Resource Include="Resources\Fonts\Segoe-UI-Variable-Static-Text-Semibold.ttf" />
+    <Resource Include="Resources\Fonts\Segoe-UI-Variable-Static-Text-Semilight.ttf" />
+    <Resource Include="Resources\Fonts\Segoe-UI-Variable-Static-Text.ttf" />
+    <Resource Include="Resources\Fonts\SegoeUI-VF.ttf" />
   </ItemGroup>
 
   <ItemGroup>
@@ -38,14 +76,23 @@
     <Using Include="CoreFlow.Application.UseCases.Linux.CreateLinuxBlock" />
     <Using Include="CoreFlow.Infrastructure" />
     <Using Include="CoreFlow.Persistence.Contexts" />
+    <Using Include="CoreFlow.Presentation.Interop" />
+    <Using Include="CoreFlow.Presentation.ViewModels" />
     <Using Include="Microsoft.EntityFrameworkCore" />
     <Using Include="Microsoft.Extensions.Configuration" />
     <Using Include="Microsoft.Extensions.DependencyInjection" />
     <Using Include="Microsoft.Extensions.Hosting" />
     <Using Include="System.ComponentModel" />
     <Using Include="System.Runtime.CompilerServices" />
+    <Using Include="System.Runtime.InteropServices" />
     <Using Include="System.Windows" />
+    <Using Include="System.Windows.Controls" />
     <Using Include="System.Windows.Input" />
+    <Using Include="System.Windows.Interop" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Commands\" />
   </ItemGroup>
 
 </Project>

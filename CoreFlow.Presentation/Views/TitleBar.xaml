@@ -1,0 +1,75 @@
+﻿<UserControl
+    x:Class="CoreFlow.Presentation.Views.TitleBar"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:controls="clr-namespace:CoreFlow.Presentation.Controls"
+    xmlns:local="clr-namespace:CoreFlow.Presentation.Views"
+    xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
+    mc:Ignorable="d"
+    d:DesignWidth="800"
+    Height="48" >
+    <Grid>
+        <Border
+            Background="{DynamicResource MicaBackgroundFillColorBaseAltBrush}"
+            BorderBrush="{DynamicResource SurfaceStrokeColorDefaultBrush}"
+            BorderThickness="1,1,1,0"
+            CornerRadius="8,8,0,0" />
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition
+                    Width="Auto" />
+                <ColumnDefinition />
+                <ColumnDefinition
+                    Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <controls:Grid Margin="8,0,0,0" Orientation="Horizontal" Spacing="16">
+                <Button
+                    shell:WindowChrome.IsHitTestVisibleInChrome="True"
+                    Focusable="False"
+                    Style="{DynamicResource TitleBar.FullScreen}"/>
+                <TextBlock
+                    FontFamily="{DynamicResource SegoeFluentIcons}"
+                    FontSize="16"
+                    Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+                    HorizontalAlignment="Center"
+                    LineHeight="16"
+                    Text="&#xEF90;"
+                    VerticalAlignment="Center" />
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    Style="{DynamicResource CaptionTextBlockStyle}"
+                    Text="Core Flow"
+                    VerticalAlignment="Center" />
+            </controls:Grid>
+            <Grid
+                Grid.Column="2" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Button
+                    shell:WindowChrome.IsHitTestVisibleInChrome="True"
+                    Command="{Binding MinimizeCommand}"
+                    Content="&#xE921;"
+                    Focusable="False"
+                    Style="{DynamicResource TitleBar.Caption}" />
+                <Button
+                    shell:WindowChrome.IsHitTestVisibleInChrome="True"
+                    Command="{Binding MaximizeRestoreCommand}"
+                    Content="{Binding MaxRestoreIcon}"
+                    Focusable="False"
+                    Grid.Column="1"
+                    Style="{DynamicResource TitleBar.Caption}" />
+                <Button
+                    shell:WindowChrome.IsHitTestVisibleInChrome="True"
+                    Command="{Binding CloseCommand}"
+                    Focusable="False"
+                    Grid.Column="2"
+                    Style="{DynamicResource TitleBar.Close}" />
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>
