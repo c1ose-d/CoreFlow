@@ -1,54 +1,52 @@
-﻿namespace CoreFlow.Presentation.ViewModels;
+﻿using CommunityToolkit.Mvvm.Input;
+using CoreFlow.Presentation.Services;
 
-public sealed class MainWindowViewModel : INotifyPropertyChanged
+namespace CoreFlow.Presentation.ViewModels;
+
+public partial class MainWindowViewModel : ObservableObject
 {
-    private readonly Window _window;
+    private readonly IWindowService _windowService;
 
-    public event PropertyChangedEventHandler? PropertyChanged;
-
-    private bool _isMaximized;
-
-    public MainWindowViewModel(Window window)
-    {
-        _window = window;
-        _isMaximized = window.WindowState == WindowState.Maximized;
-
-        MinimizeCommand = new RelayCommand(_ => SystemCommands.MinimizeWindow(window));
-        MaximizeRestoreCommand = new RelayCommand(_ =>
-        {
-            if (window.WindowState == WindowState.Normal)
-            {
-                SystemCommands.MaximizeWindow(_window);
-            }
-            else
-            {
-                SystemCommands.RestoreWindow(_window);
-            }
-        });
-        CloseCommand = new RelayCommand(_ => SystemCommands.CloseWindow(window));
-    }
-
-    public bool IsMaximized
-    {
-        get => _isMaximized;
-        private set
-        {
-            if (_isMaximized != value)
-            {
-                _isMaximized = value;
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(MaxRestoreIcon));
-            }
-        }
-    }
+    [ObservableProperty]
+    private bool isMaximized;
 
     public string MaxRestoreIcon => IsMaximized ? "" : "";
 
-    public ICommand MinimizeCommand { get; }
+    public MainWindowViewModel(IWindowService windowService)
+    {
+        _windowService = windowService;
+        IsMaximized = _windowService.IsWindowMaximized;
+        _windowService.StateChanged += OnWindowStateChanged;
+    }
 
-    public ICommand MaximizeRestoreCommand { get; }
+    private void OnWindowStateChanged()
+    {
+        IsMaximized = _windowService.IsWindowMaximized;
+        OnPropertyChanged(nameof(MaxRestoreIcon));
+    }
 
-    public ICommand CloseCommand { get; }
+    [RelayCommand]
+    private void Minimize()
+    {
+        _windowService.Minimize();
+    }
 
-    private void OnPropertyChanged([CallerMemberName] string? name = null) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+    [RelayCommand]
+    private void MaximizeRestore()
+    {
+        if (IsMaximized)
+        {
+            _windowService.Restore();
+        }
+        else
+        {
+            _windowService.Maximize();
+        }
+    }
+
+    [RelayCommand]
+    private void Close()
+    {
+        _windowService.Close();
+    }
 }

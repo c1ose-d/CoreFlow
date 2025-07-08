@@ -11,8 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CoreFlow.Application\CoreFlow.Application.csproj" />
-    <ProjectReference Include="..\CoreFlow.Domain\CoreFlow.Domain.csproj" />
     <ProjectReference Include="..\CoreFlow.Persistence\CoreFlow.Persistence.csproj" />
   </ItemGroup>
 

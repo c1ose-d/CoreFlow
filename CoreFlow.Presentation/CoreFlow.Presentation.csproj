@@ -6,8 +6,16 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+	<UseSystemDrawing>true</UseSystemDrawing>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Commands\**" />
+    <EmbeddedResource Remove="Commands\**" />
+    <None Remove="Commands\**" />
+    <Page Remove="Commands\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <None Remove="Resources\Fonts\Segoe Fluent Icons.ttf" />
@@ -43,8 +51,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CoreFlow.Application\CoreFlow.Application.csproj" />
-    <ProjectReference Include="..\CoreFlow.Infrastructure\CoreFlow.Infrastructure.csproj" />
     <ProjectReference Include="..\CoreFlow.Persistence\CoreFlow.Persistence.csproj" />
   </ItemGroup>
 
@@ -82,17 +88,32 @@
     <Using Include="Microsoft.Extensions.Configuration" />
     <Using Include="Microsoft.Extensions.DependencyInjection" />
     <Using Include="Microsoft.Extensions.Hosting" />
+    <Using Include="Microsoft.Win32" />
     <Using Include="System.ComponentModel" />
+    <Using Include="System.Globalization" />
     <Using Include="System.Runtime.CompilerServices" />
     <Using Include="System.Runtime.InteropServices" />
     <Using Include="System.Windows" />
     <Using Include="System.Windows.Controls" />
     <Using Include="System.Windows.Input" />
     <Using Include="System.Windows.Interop" />
+    <Using Include="System.Windows.Media" />
+    <Using Include="System.Windows.Media.Imaging" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Commands\" />
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
 
 </Project>

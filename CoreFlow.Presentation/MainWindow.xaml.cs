@@ -2,11 +2,12 @@
 
 public partial class MainWindow : Window
 {
+    private const string Glyph = "\uEF90";
+
     public MainWindow()
     {
         InitializeComponent();
-
-        DataContext = new MainWindowViewModel(this);
+        UpdateIcon();
     }
 
     protected override void OnSourceInitialized(EventArgs e)
@@ -19,12 +20,23 @@ public partial class MainWindow : Window
     private nint WndProc(nint hwnd, int msg, nint wParam, nint lParam, ref bool handled)
     {
         const int WM_GETMINMAXINFO = 0x0024;
+        const int WM_SETTINGCHANGE = 0x001A;
 
         if (msg == WM_GETMINMAXINFO)
         {
             AdjustMaximizedSizeAndPosition(hwnd, lParam);
             handled = true;
         }
+
+        if (msg == WM_SETTINGCHANGE)
+        {
+            string? param = Marshal.PtrToStringUni(lParam);
+            if (param is "ImmersiveColorSet" or "SystemUsesLightTheme")
+            {
+                _ = Dispatcher.BeginInvoke(UpdateIcon);
+            }
+        }
+
         return nint.Zero;
     }
 
@@ -48,5 +60,13 @@ public partial class MainWindow : Window
         }
 
         Marshal.StructureToPtr(mmi, lParam, false);
+    }
+
+    private void UpdateIcon()
+    {
+        bool light = ThemeHelper.IsSystemLight();
+        Color color = light ? Color.FromArgb(228, 0, 0, 0) : Color.FromArgb(255, 255, 255, 255);
+
+        Icon = IconHelper.MakeGlyphIcon(Glyph, color);
     }
 }

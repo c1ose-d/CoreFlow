@@ -7,7 +7,9 @@
     xmlns:controls="clr-namespace:CoreFlow.Presentation.Controls"
     xmlns:local="clr-namespace:CoreFlow.Presentation.Views"
     xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
+    xmlns:viewmodels="clr-namespace:CoreFlow.Presentation.ViewModels"
     mc:Ignorable="d"
+    d:DataContext="{d:DesignInstance Type=viewmodels:MainWindowViewModel}"
     d:DesignWidth="800"
     Height="48" >
     <Grid>
@@ -49,25 +51,33 @@
                     <ColumnDefinition />
                     <ColumnDefinition />
                     <ColumnDefinition />
+                    <ColumnDefinition />
                 </Grid.ColumnDefinitions>
+                <Button
+                    shell:WindowChrome.IsHitTestVisibleInChrome="True"
+                    Command="{Binding ToggleThemeCommand}"
+                    Content="&#xE793;"
+                    Focusable="False"
+                    Style="{DynamicResource TitleBar.Caption}" />
                 <Button
                     shell:WindowChrome.IsHitTestVisibleInChrome="True"
                     Command="{Binding MinimizeCommand}"
                     Content="&#xE921;"
                     Focusable="False"
+                    Grid.Column="1"
                     Style="{DynamicResource TitleBar.Caption}" />
                 <Button
                     shell:WindowChrome.IsHitTestVisibleInChrome="True"
                     Command="{Binding MaximizeRestoreCommand}"
                     Content="{Binding MaxRestoreIcon}"
                     Focusable="False"
-                    Grid.Column="1"
+                    Grid.Column="2"
                     Style="{DynamicResource TitleBar.Caption}" />
                 <Button
                     shell:WindowChrome.IsHitTestVisibleInChrome="True"
                     Command="{Binding CloseCommand}"
                     Focusable="False"
-                    Grid.Column="2"
+                    Grid.Column="3"
                     Style="{DynamicResource TitleBar.Close}" />
             </Grid>
         </Grid>
