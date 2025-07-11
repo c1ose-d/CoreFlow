@@ -1,13 +1,40 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
+    <TargetFramework>net10.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MediatR" Version="13.0.0" />
+    <Compile Remove="DTOs\DveBlockDto.cs" />
+    <Compile Remove="DTOs\DveIdDto.cs" />
+    <Compile Remove="DTOs\LinuxBlockDto.cs" />
+    <Compile Remove="DTOs\LinuxCommandDto.cs" />
+    <Compile Remove="DTOs\RebootCommandDto.cs" />
+    <Compile Remove="DTOs\RebootDto.cs" />
+    <Compile Remove="DTOs\RebootListDto.cs" />
+    <Compile Remove="DTOs\ServerBlockDto.cs" />
+    <Compile Remove="DTOs\ServerDto.cs" />
+    <Compile Remove="Interfaces\IDveBlockService.cs" />
+    <Compile Remove="Interfaces\IDveIdService.cs" />
+    <Compile Remove="Interfaces\ILinuxBlockService.cs" />
+    <Compile Remove="Interfaces\ILinuxCommandService.cs" />
+    <Compile Remove="Interfaces\IRebootService.cs" />
+    <Compile Remove="Interfaces\IServerBlockService.cs" />
+    <Compile Remove="Interfaces\IServerService.cs" />
+    <Compile Remove="Services\DveBlockService.cs" />
+    <Compile Remove="Services\DveIdService.cs" />
+    <Compile Remove="Services\LinuxBlockService.cs" />
+    <Compile Remove="Services\LinuxCommandService.cs" />
+    <Compile Remove="Services\RebootService.cs" />
+    <Compile Remove="Services\ServerBlockService.cs" />
+    <Compile Remove="Services\ServerService.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="15.0.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -15,11 +42,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Using Include="AutoMapper" />
+    <Using Include="CoreFlow.Application.DTOs" />
+    <Using Include="CoreFlow.Application.DTOs.System" />
+    <Using Include="CoreFlow.Application.DTOs.User" />
     <Using Include="CoreFlow.Application.Interfaces" />
-    <Using Include="CoreFlow.Domain.Dve" />
-    <Using Include="CoreFlow.Domain.Linux" />
-    <Using Include="CoreFlow.Domain.Reboot" />
-    <Using Include="CoreFlow.Domain.Server" />
+    <Using Include="CoreFlow.Domain.Entities" />
+    <Using Include="CoreFlow.Domain.Interfaces" />
   </ItemGroup>
 
 </Project>

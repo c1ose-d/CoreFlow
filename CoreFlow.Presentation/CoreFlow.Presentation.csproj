@@ -6,114 +6,90 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
-	<UseSystemDrawing>true</UseSystemDrawing>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	<StartupObject>CoreFlow.Presentation.App</StartupObject>
+	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Commands\**" />
-    <EmbeddedResource Remove="Commands\**" />
-    <None Remove="Commands\**" />
-    <Page Remove="Commands\**" />
+	<ApplicationDefinition Remove="App.xaml" />
+	<Page Include="App.xaml" />
   </ItemGroup>
-
+	
   <ItemGroup>
-    <None Remove="Resources\Fonts\Segoe Fluent Icons.ttf" />
-    <None Remove="Resources\Fonts\Segoe-UI-Variable-Static-Display-Bold.ttf" />
-    <None Remove="Resources\Fonts\Segoe-UI-Variable-Static-Display-Light.ttf" />
-    <None Remove="Resources\Fonts\Segoe-UI-Variable-Static-Display-Semibold.ttf" />
-    <None Remove="Resources\Fonts\Segoe-UI-Variable-Static-Display-Semilight.ttf" />
-    <None Remove="Resources\Fonts\Segoe-UI-Variable-Static-Display.ttf" />
-    <None Remove="Resources\Fonts\Segoe-UI-Variable-Static-Small-Bold.ttf" />
-    <None Remove="Resources\Fonts\Segoe-UI-Variable-Static-Small-Light.ttf" />
-    <None Remove="Resources\Fonts\Segoe-UI-Variable-Static-Small-Semibold.ttf" />
-    <None Remove="Resources\Fonts\Segoe-UI-Variable-Static-Small-Semilight.ttf" />
-    <None Remove="Resources\Fonts\Segoe-UI-Variable-Static-Small.ttf" />
-    <None Remove="Resources\Fonts\Segoe-UI-Variable-Static-Text-Bold.ttf" />
-    <None Remove="Resources\Fonts\Segoe-UI-Variable-Static-Text-Light.ttf" />
-    <None Remove="Resources\Fonts\Segoe-UI-Variable-Static-Text-Semibold.ttf" />
-    <None Remove="Resources\Fonts\Segoe-UI-Variable-Static-Text-Semilight.ttf" />
-    <None Remove="Resources\Fonts\Segoe-UI-Variable-Static-Text.ttf" />
-    <None Remove="Resources\Fonts\SegoeUI-VF.ttf" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.0-preview.5.25277.114" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.0-preview.5.25277.114">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="10.0.0-preview.5.25277.114" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="10.0.0-preview.5.25277.114" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.0-preview.5.25277.114" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.0-preview.5.25277.114" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\CoreFlow.Persistence\CoreFlow.Persistence.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Resource Include="appsettings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\Fonts\Segoe Fluent Icons.ttf" />
-    <Resource Include="Resources\Fonts\Segoe-UI-Variable-Static-Display-Bold.ttf" />
-    <Resource Include="Resources\Fonts\Segoe-UI-Variable-Static-Display-Light.ttf" />
-    <Resource Include="Resources\Fonts\Segoe-UI-Variable-Static-Display-Semibold.ttf" />
-    <Resource Include="Resources\Fonts\Segoe-UI-Variable-Static-Display-Semilight.ttf" />
-    <Resource Include="Resources\Fonts\Segoe-UI-Variable-Static-Display.ttf" />
-    <Resource Include="Resources\Fonts\Segoe-UI-Variable-Static-Small-Bold.ttf" />
-    <Resource Include="Resources\Fonts\Segoe-UI-Variable-Static-Small-Light.ttf" />
-    <Resource Include="Resources\Fonts\Segoe-UI-Variable-Static-Small-Semibold.ttf" />
-    <Resource Include="Resources\Fonts\Segoe-UI-Variable-Static-Small-Semilight.ttf" />
-    <Resource Include="Resources\Fonts\Segoe-UI-Variable-Static-Small.ttf" />
-    <Resource Include="Resources\Fonts\Segoe-UI-Variable-Static-Text-Bold.ttf" />
-    <Resource Include="Resources\Fonts\Segoe-UI-Variable-Static-Text-Light.ttf" />
-    <Resource Include="Resources\Fonts\Segoe-UI-Variable-Static-Text-Semibold.ttf" />
-    <Resource Include="Resources\Fonts\Segoe-UI-Variable-Static-Text-Semilight.ttf" />
-    <Resource Include="Resources\Fonts\Segoe-UI-Variable-Static-Text.ttf" />
-    <Resource Include="Resources\Fonts\SegoeUI-VF.ttf" />
+	<None Remove="appsettings.json" />
+	<None Remove="Resources\Fonts\Segoe Fluent Icons.ttf" />
+	<None Remove="Resources\Fonts\Segoe-UI-Variable-Static-Display-Semibold.ttf" />
+	<None Remove="Resources\Fonts\Segoe-UI-Variable-Static-Small.ttf" />
+	<None Remove="Resources\Fonts\Segoe-UI-Variable-Static-Text-Semibold.ttf" />
+	<None Remove="Resources\Fonts\Segoe-UI-Variable-Static-Text.ttf" />
   </ItemGroup>
 
   <ItemGroup>
     <Using Include="CommunityToolkit.Mvvm.ComponentModel" />
-    <Using Include="CoreFlow.Application.UseCases.Linux.CreateLinuxBlock" />
-    <Using Include="CoreFlow.Infrastructure" />
-    <Using Include="CoreFlow.Persistence.Contexts" />
+    <Using Include="CommunityToolkit.Mvvm.Input" />
+    <Using Include="CoreFlow.Application.DTOs" />
+    <Using Include="CoreFlow.Application.DTOs.System" />
+    <Using Include="CoreFlow.Application.DTOs.User" />
+    <Using Include="CoreFlow.Application.Interfaces" />
+    <Using Include="CoreFlow.Application.Mappings" />
+    <Using Include="CoreFlow.Application.Services" />
+    <Using Include="CoreFlow.Domain.Interfaces" />
+    <Using Include="CoreFlow.Infrastructure.Data" />
+    <Using Include="CoreFlow.Infrastructure.Repositories" />
     <Using Include="CoreFlow.Presentation.Interop" />
+    <Using Include="CoreFlow.Presentation.Options" />
+    <Using Include="CoreFlow.Presentation.Services" />
     <Using Include="CoreFlow.Presentation.ViewModels" />
+    <Using Include="CoreFlow.Presentation.Views" />
     <Using Include="Microsoft.EntityFrameworkCore" />
     <Using Include="Microsoft.Extensions.Configuration" />
     <Using Include="Microsoft.Extensions.DependencyInjection" />
     <Using Include="Microsoft.Extensions.Hosting" />
+    <Using Include="Microsoft.Extensions.Options" />
     <Using Include="Microsoft.Win32" />
-    <Using Include="System.ComponentModel" />
+    <Using Include="Newtonsoft.Json.Linq" />
+    <Using Include="System.Collections.ObjectModel" />
     <Using Include="System.Globalization" />
-    <Using Include="System.Runtime.CompilerServices" />
+    <Using Include="System.IO" />
     <Using Include="System.Runtime.InteropServices" />
     <Using Include="System.Windows" />
     <Using Include="System.Windows.Controls" />
+    <Using Include="System.Windows.Data" />
     <Using Include="System.Windows.Input" />
     <Using Include="System.Windows.Interop" />
     <Using Include="System.Windows.Media" />
     <Using Include="System.Windows.Media.Imaging" />
+    <Using Include="System.Windows.Threading" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Properties\Settings.Designer.cs">
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.0-preview.5.25277.114">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.0-preview.5.25277.114" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.0-preview.5.25277.114" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
+    <ProjectReference Include="..\CoreFlow.Application\CoreFlow.Application.csproj" />
+    <ProjectReference Include="..\CoreFlow.Infrastructure\CoreFlow.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\Fonts\Segoe Fluent Icons.ttf" />
+    <Resource Include="Resources\Fonts\Segoe-UI-Variable-Static-Display-Semibold.ttf" />
+    <Resource Include="Resources\Fonts\Segoe-UI-Variable-Static-Small.ttf" />
+    <Resource Include="Resources\Fonts\Segoe-UI-Variable-Static-Text-Semibold.ttf" />
+    <Resource Include="Resources\Fonts\Segoe-UI-Variable-Static-Text.ttf" />
   </ItemGroup>
 
 </Project>

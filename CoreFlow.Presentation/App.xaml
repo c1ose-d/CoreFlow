@@ -1,9 +1,32 @@
-﻿<Application x:Class="CoreFlow.Presentation.App" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" StartupUri="/MainWindow.xaml" >
+﻿<Application
+    x:Class="CoreFlow.Presentation.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:local="clr-namespace:CoreFlow.Presentation.Resources.Styles.Shared"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" >
     <Application.Resources>
         <ResourceDictionary>
+            <local:StringEmptyToVisibilityConverter
+                x:Key="StringEmptyToVisibilityConverter" />
+            <local:StringNotEmptyToVisibilityConverter
+                x:Key="StringNotEmptyToVisibilityConverter" />
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Resources/Themes/Generic.xaml" />
-                <ResourceDictionary Source="/Resources/Themes/Light.xaml" />
+                <!--Controls-->
+                <ResourceDictionary
+                    Source="/Resources/Styles/Controls/BasicInput.xaml" />
+                <ResourceDictionary
+                    Source="/Resources/Styles/Controls/Primitives.xaml" />
+                <ResourceDictionary
+                    Source="/Resources/Styles/Controls/TextFields.xaml" />
+                <!--Shared-->
+                <ResourceDictionary
+                    Source="/Resources/Styles/Shared/Geometry.xaml" />
+                <ResourceDictionary
+                    Source="/Resources/Styles/Shared/TitleBar.xaml" />
+                <ResourceDictionary
+                    Source="/Resources/Styles/Shared/Typography.xaml" />
+                <!--Themes-->
+                <ResourceDictionary
+                    Source="/Resources/Styles/Themes/DarkTheme.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

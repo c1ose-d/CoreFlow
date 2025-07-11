@@ -7,14 +7,7 @@ internal static class IconHelper
         DrawingVisual dv = new();
         using (DrawingContext dc = dv.RenderOpen())
         {
-            FormattedText ft = new(
-                glyph,
-                CultureInfo.InvariantCulture,
-                FlowDirection.LeftToRight,
-                new Typeface((FontFamily)System.Windows.Application.Current.Resources["SegoeFluentIcons"], FontStyles.Normal, FontWeights.Normal, FontStretches.Normal),
-                px - 4,
-                new SolidColorBrush(color),
-                VisualTreeHelper.GetDpi(dv).PixelsPerDip);
+            FormattedText ft = new(glyph, CultureInfo.InvariantCulture, FlowDirection.LeftToRight, new Typeface(new FontFamily("Segoe Fluent Icons"), FontStyles.Normal, FontWeights.Normal, FontStretches.Normal), px - 4, new SolidColorBrush(color), VisualTreeHelper.GetDpi(dv).PixelsPerDip);
 
             Point origin = new((px - ft.Width) / 2, (px - ft.Height) / 2);
 
