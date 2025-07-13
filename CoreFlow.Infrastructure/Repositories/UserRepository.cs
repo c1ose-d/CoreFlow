@@ -6,27 +6,64 @@ public class UserRepository(CoreFlowContext coreFlowContext) : IUserRepository
 
     public async Task<bool> ExistsAsync(Guid id)
     {
-        return await _coreFlowContext.Users.AnyAsync(user => user.Id == id);
+        return await _coreFlowContext
+            .Users
+            .AsNoTracking()
+            .AnyAsync(predicate => predicate.Id == id);
     }
 
     public async Task<bool> ExistsByUserNameAsync(string userName)
     {
-        return await _coreFlowContext.Users.AnyAsync(user => user.UserName == userName);
+        return await _coreFlowContext
+            .Users
+            .AsNoTracking()
+            .AnyAsync(predicate => predicate.UserName == userName);
+    }
+
+    public async Task<bool> ExistsByUserNameNotIdAsync(string userName, Guid id)
+    {
+        return await _coreFlowContext
+            .Users
+            .AsNoTracking()
+            .AnyAsync(predicate => predicate.UserName == userName && predicate.Id != id);
     }
 
     public async Task<User?> GetByIdAsync(Guid id)
     {
-        return await _coreFlowContext.Users.Include(user => user.UserSystems).ThenInclude(userSystem => userSystem.System).FirstAsync(user => user.Id == id);
+        return await _coreFlowContext
+            .Users
+            .Include(navigationPropertyPath => navigationPropertyPath.UserAppSystems)
+            .ThenInclude(navigationPropertyPath => navigationPropertyPath.AppSystem)
+            .FirstOrDefaultAsync(predicate => predicate.Id == id);
     }
 
     public async Task<User?> GetByUserNamePasswordAsync(string userName, string password)
     {
-        return await _coreFlowContext.Users.Include(user => user.UserSystems).ThenInclude(userSystem => userSystem.System).FirstAsync(user => user.UserName == userName && user.Password == password);
+        return await _coreFlowContext
+            .Users
+            .Include(navigationPropertyPath => navigationPropertyPath.UserAppSystems)
+            .ThenInclude(navigationPropertyPath => navigationPropertyPath.AppSystem)
+            .FirstOrDefaultAsync(predicate => predicate.UserName == userName && predicate.Password == password);
     }
 
     public async Task<List<User>> GetAllAsync()
     {
-        return await _coreFlowContext.Users.Include(user => user.UserSystems).ThenInclude(userSystem => userSystem.System).ToListAsync();
+        return await _coreFlowContext
+            .Users
+            .Include(navigationPropertyPath => navigationPropertyPath.UserAppSystems)
+            .ThenInclude(navigationPropertyPath => navigationPropertyPath.AppSystem)
+            .ToListAsync();
+    }
+
+    public async Task<List<User>> SearchAsync(string searchString)
+    {
+        string? lower = !string.IsNullOrWhiteSpace(searchString) ? searchString.ToLower() : string.Empty;
+
+        return await _coreFlowContext
+            .Users
+            .AsNoTracking()
+            .Where(predicate => EF.Functions.Like($"{predicate.UserName.ToLower()}", $"%{lower}%"))
+            .ToListAsync();
     }
 
     public async Task CreateAsync(User user)

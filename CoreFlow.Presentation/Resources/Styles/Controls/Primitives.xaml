@@ -1,6 +1,545 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:shared="clr-namespace:CoreFlow.Presentation.Resources.Styles.Shared" >
+    <!--List Item-->
+    <Style
+        x:Key="ComboBox.ListItem.TextOnly"
+        TargetType="{x:Type ComboBoxItem}" >
+        <Setter
+            Property="Background"
+            Value="{DynamicResource SubtleFillColorTransparentBrush}" />
+        <Setter
+            Property="BorderBrush"
+            Value="Transparent" />
+        <Setter
+            Property="BorderThickness"
+            Value="0" />
+        <Setter
+            Property="Focusable"
+            Value="True" />
+        <Setter
+            Property="Margin"
+            Value="5,3" />
+        <Setter
+            Property="MinHeight"
+            Value="34" />
+        <Setter
+            Property="HorizontalContentAlignment"
+            Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
+        <Setter
+            Property="Padding"
+            Value="0" />
+        <Setter
+            Property="SnapsToDevicePixels"
+            Value="True" />
+        <Setter
+            Property="VerticalContentAlignment"
+            Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
+        <Setter
+            Property="Template" >
+            <Setter.Value>
+                <ControlTemplate
+                    TargetType="{x:Type ComboBoxItem}" >
+                    <Grid>
+                        <Border
+                            x:Name="Border"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{DynamicResource ControlCornerRadius}"
+                            Padding="{TemplateBinding Padding}"
+                            SnapsToDevicePixels="True" >
+                            <ContentPresenter
+                                HorizontalAlignment="Left"
+                                Margin="16,0,0,0"
+                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                VerticalAlignment="Center" />
+                        </Border>
+                        <Border
+                            x:Name="Selector"
+                            BorderThickness="0"
+                            CornerRadius="{DynamicResource ControlCornerRadius}"
+                            Background="{DynamicResource AccentFillColorDefaultBrush}"
+                            HorizontalAlignment="Left"
+                            Margin="-1,9,0,9"
+                            VerticalAlignment="Stretch"
+                            Visibility="Collapsed"
+                            Width="3" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger
+                            Property="IsSelected"
+                            Value="True" >
+                            <Setter
+                                Property="Background"
+                                TargetName="Border"
+                                Value="{DynamicResource SubtleFillColorSecondaryBrush}" />
+                            <Setter
+                                Property="Visibility"
+                                TargetName="Selector"
+                                Value="Visible" />
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition
+                                    Property="IsSelected"
+                                    Value="False" />
+                                <Condition
+                                    Property="IsMouseOver"
+                                    Value="True" />
+                            </MultiTrigger.Conditions>
+                            <Setter
+                                Property="Background"
+                                TargetName="Border"
+                                Value="{DynamicResource SubtleFillColorSecondaryBrush}" />
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition
+                                    Property="IsSelected"
+                                    Value="True" />
+                                <Condition
+                                    Property="IsMouseOver"
+                                    Value="True" />
+                            </MultiTrigger.Conditions>
+                            <Setter
+                                Property="Background"
+                                TargetName="Border"
+                                Value="{DynamicResource SubtleFillColorTertiaryBrush}" />
+                            <Setter
+                                Property="Visibility"
+                                TargetName="Selector"
+                                Value="Visible" />
+                        </MultiTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style
+        x:Key="ListView.ListItem.Check"
+        TargetType="{x:Type ListViewItem}" >
+        <Setter
+            Property="Background"
+            Value="{DynamicResource SubtleFillColorTransparentBrush}" />
+        <Setter
+            Property="BorderBrush"
+            Value="Transparent" />
+        <Setter
+            Property="BorderThickness"
+            Value="0" />
+        <Setter
+            Property="Focusable"
+            Value="True" />
+        <Setter
+            Property="Margin"
+            Value="5,3" />
+        <Setter
+            Property="MinHeight"
+            Value="34" />
+        <Setter
+            Property="HorizontalContentAlignment"
+            Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
+        <Setter
+            Property="Padding"
+            Value="0" />
+        <Setter
+            Property="SnapsToDevicePixels"
+            Value="True" />
+        <Setter
+            Property="VerticalContentAlignment"
+            Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
+        <Setter
+            Property="Template" >
+            <Setter.Value>
+                <ControlTemplate
+                    TargetType="{x:Type ListViewItem}" >
+                    <Grid>
+                        <Border
+                            x:Name="Border"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{DynamicResource ControlCornerRadius}"
+                            Padding="{TemplateBinding Padding}"
+                            SnapsToDevicePixels="True" >
+                            <CheckBox
+                                Content="{TemplateBinding shared:ListItemProperties.Text}"
+                                Focusable="False"
+                                HorizontalAlignment="Left"
+                                IsChecked="{TemplateBinding IsSelected}"
+                                Margin="16,0,0,0"
+                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                VerticalAlignment="Center"
+                                Style="{DynamicResource CheckBox}" />
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger
+                            Property="IsSelected"
+                            Value="True" >
+                            <Setter
+                                Property="Background"
+                                TargetName="Border"
+                                Value="{DynamicResource SubtleFillColorSecondaryBrush}" />
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition
+                                    Property="IsSelected"
+                                    Value="False" />
+                                <Condition
+                                    Property="IsMouseOver"
+                                    Value="True" />
+                            </MultiTrigger.Conditions>
+                            <Setter
+                                Property="Background"
+                                TargetName="Border"
+                                Value="{DynamicResource SubtleFillColorSecondaryBrush}" />
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition
+                                    Property="IsSelected"
+                                    Value="True" />
+                                <Condition
+                                    Property="IsMouseOver"
+                                    Value="True" />
+                            </MultiTrigger.Conditions>
+                            <Setter
+                                Property="Background"
+                                TargetName="Border"
+                                Value="{DynamicResource SubtleFillColorTertiaryBrush}" />
+                        </MultiTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style
+        x:Key="ListViewItem.ListItem.TextCaption"
+        TargetType="{x:Type ListViewItem}" >
+        <Setter
+            Property="Background"
+            Value="{DynamicResource CardBackgroundFillColorDefaultBrush}" />
+        <Setter
+            Property="BorderBrush"
+            Value="Transparent" />
+        <Setter
+            Property="BorderThickness"
+            Value="0" />
+        <Setter
+            Property="Focusable"
+            Value="True" />
+        <Setter
+            Property="Margin"
+            Value="5,3" />
+        <Setter
+            Property="MinHeight"
+            Value="34" />
+        <Setter
+            Property="HorizontalContentAlignment"
+            Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
+        <Setter
+            Property="Padding"
+            Value="0" />
+        <Setter
+            Property="SnapsToDevicePixels"
+            Value="True" />
+        <Setter
+            Property="VerticalContentAlignment"
+            Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
+        <Setter
+            Property="Template" >
+            <Setter.Value>
+                <ControlTemplate
+                    TargetType="{x:Type ListViewItem}" >
+                    <Grid>
+                        <Border
+                            x:Name="Border"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{DynamicResource ControlCornerRadius}"
+                            Padding="{TemplateBinding Padding}"
+                            SnapsToDevicePixels="True" >
+                            <Grid
+                                Margin="16,8" >
+                                <Grid.RowDefinitions>
+                                    <RowDefinition
+                                        Height="Auto" />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <TextBlock
+                                    x:Name="ContentText"
+                                    Margin="0,0,0,4"
+                                    Style="{DynamicResource BodyTextBlockStyle}"
+                                    Text="{TemplateBinding shared:ListItemProperties.Text}"
+                                    VerticalAlignment="Center" />
+                                <TextBlock
+                                    x:Name="ContentCaption"
+                                    Grid.Row="1"
+                                    Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                                    Style="{DynamicResource CaptionTextBlockStyle}"
+                                    Text="{TemplateBinding shared:ListItemProperties.Caption}"
+                                    VerticalAlignment="Center"
+                                    TextWrapping="Wrap" />
+                            </Grid>
+                        </Border>
+                        <Border
+                            x:Name="Selector"
+                            BorderThickness="0"
+                            CornerRadius="{DynamicResource ControlCornerRadius}"
+                            Background="{DynamicResource AccentFillColorDefaultBrush}"
+                            HorizontalAlignment="Left"
+                            Margin="-1,9,0,9"
+                            VerticalAlignment="Stretch"
+                            Visibility="Collapsed"
+                            Width="3" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger
+                            Property="IsSelected"
+                            Value="True" >
+                            <Setter
+                                Property="Background"
+                                TargetName="Border"
+                                Value="{DynamicResource CardBackgroundTertiaryBrush}" />
+                            <Setter
+                                Property="Visibility"
+                                TargetName="Selector"
+                                Value="Visible" />
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition
+                                    Property="IsSelected"
+                                    Value="False" />
+                                <Condition
+                                    Property="IsMouseOver"
+                                    Value="True" />
+                            </MultiTrigger.Conditions>
+                            <Setter
+                                Property="Background"
+                                TargetName="Border"
+                                Value="{DynamicResource CardBackgroundFillColorSecondaryBrush}" />
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition
+                                    Property="IsSelected"
+                                    Value="True" />
+                                <Condition
+                                    Property="IsMouseOver"
+                                    Value="True" />
+                            </MultiTrigger.Conditions>
+                            <Setter
+                                Property="Background"
+                                TargetName="Border"
+                                Value="{DynamicResource CardBackgroundTertiaryBrush}" />
+                            <Setter
+                                Property="Visibility"
+                                TargetName="Selector"
+                                Value="Visible" />
+                        </MultiTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style
+        x:Key="ListView.ListItem.IconTextCaption.NavPointer"
+        TargetType="{x:Type ListViewItem}" >
+        <Setter
+            Property="Background"
+            Value="{DynamicResource CardBackgroundFillColorDefaultBrush}" />
+        <Setter
+            Property="BorderBrush"
+            Value="Transparent" />
+        <Setter
+            Property="BorderThickness"
+            Value="0" />
+        <Setter
+            Property="Focusable"
+            Value="True" />
+        <Setter
+            Property="Margin"
+            Value="5,3" />
+        <Setter
+            Property="MinHeight"
+            Value="34" />
+        <Setter
+            Property="HorizontalContentAlignment"
+            Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
+        <Setter
+            Property="Padding"
+            Value="0" />
+        <Setter
+            Property="SnapsToDevicePixels"
+            Value="True" />
+        <Setter
+            Property="VerticalContentAlignment"
+            Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
+        <Setter
+            Property="Template" >
+            <Setter.Value>
+                <ControlTemplate
+                    TargetType="{x:Type ListViewItem}" >
+                    <Grid>
+                        <Border
+                            x:Name="Border"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{DynamicResource ControlCornerRadius}"
+                            Padding="{TemplateBinding Padding}"
+                            SnapsToDevicePixels="True" >
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition
+                                        Width="44" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition
+                                        Width="44" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock
+                                    x:Name="ContentIcon"
+                                    FontFamily="{DynamicResource SegoeFluentIcons}"
+                                    FontSize="16"
+                                    Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+                                    HorizontalAlignment="Center"
+                                    LineHeight="16"
+                                    Text="{TemplateBinding shared:ListItemProperties.Icon}"
+                                    VerticalAlignment="Center" />
+                                <Grid
+                                    Grid.Column="1"
+                                    Margin="0,8" >
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition
+                                            Height="Auto" />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <TextBlock
+                                        x:Name="ContentText"
+                                        Margin="0,0,0,4"
+                                        Style="{DynamicResource BodyTextBlockStyle}"
+                                        Text="{TemplateBinding shared:ListItemProperties.Text}"
+                                        VerticalAlignment="Center" />
+                                    <TextBlock
+                                        x:Name="ContentCaption"
+                                        Grid.Row="1"
+                                        Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                                        Style="{DynamicResource CaptionTextBlockStyle}"
+                                        Text="{TemplateBinding shared:ListItemProperties.Caption}"
+                                        VerticalAlignment="Center"
+                                        TextWrapping="Wrap" />
+                                </Grid>
+                                <TextBlock
+                                    FontFamily="{DynamicResource SegoeFluentIcons}"
+                                    FontSize="16"
+                                    Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+                                    Grid.Column="2"
+                                    HorizontalAlignment="Center"
+                                    LineHeight="16"
+                                    Text="&#xE974;"
+                                    VerticalAlignment="Center" />
+                            </Grid>
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger
+                            Property="IsMouseOver"
+                            Value="True" >
+                            <Setter
+                                Property="Background"
+                                TargetName="Border"
+                                Value="{DynamicResource CardBackgroundTertiaryBrush}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!--Caret-->
+    <Style
+        x:Key="Caret"
+        TargetType="{x:Type RepeatButton}" >
+        <Setter
+            Property="FocusVisualStyle"
+            Value="{x:Null}" />
+        <Setter
+            Property="BorderThickness"
+            Value="0" />
+        <Setter
+            Property="Focusable"
+            Value="False" />
+        <Setter
+            Property="HorizontalContentAlignment"
+            Value="Center" />
+        <Setter
+            Property="IsTabStop"
+            Value="False" />
+        <Setter
+            Property="Padding"
+            Value="0" />
+        <Setter
+            Property="VerticalContentAlignment"
+            Value="Center" />
+        <Setter
+            Property="Template" >
+            <Setter.Value>
+                <ControlTemplate
+                    TargetType="{x:Type RepeatButton}" >
+                    <Border
+                        x:Name="Border"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        BorderThickness="0"
+                        Height="8"
+                        SnapsToDevicePixels="True"
+                        Visibility="Visible"
+                        Width="8" >
+                        <TextBlock
+                            x:Name="ContentText"
+                            FontFamily="{DynamicResource SegoeFluentIcons}"
+                            FontSize="8"
+                            Foreground="{DynamicResource ControlStrongFillColorDefaultBrush}"
+                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            LineHeight="8"
+                            Text="{TemplateBinding Content}"
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger
+                            Property="IsMouseOver"
+                            Value="True" >
+                            <Setter
+                                Property="Foreground"
+                                TargetName="ContentText"
+                                Value="{DynamicResource TextFillColorSecondaryBrush}" />
+                        </Trigger>
+                        <Trigger
+                            Property="IsPressed"
+                            Value="True" >
+                            <Setter
+                                Property="Foreground"
+                                TargetName="ContentText"
+                                Value="{DynamicResource TextFillColorSecondaryBrush}" />
+                        </Trigger>
+                        <Trigger
+                            Property="IsEnabled"
+                            Value="False" >
+                            <Setter
+                                Property="Foreground"
+                                TargetName="ContentText"
+                                Value="Transparent" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
     <Style
         x:Key="FocusRect" >
         <Setter
@@ -156,119 +695,6 @@
                                 TargetName="ContentText"
                                 Value="{DynamicResource TextFillColorDisabledBrush}" />
                         </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-    <Style
-        x:Key="ListItem"
-        TargetType="{x:Type ListBoxItem}">
-        <Setter
-            Property="Background"
-            Value="{DynamicResource SubtleFillColorTransparentBrush}" />
-        <Setter
-            Property="BorderBrush"
-            Value="Transparent"/>
-        <Setter
-            Property="BorderThickness"
-            Value="0"/>
-        <Setter
-            Property="Focusable"
-            Value="False" />
-        <Setter
-            Property="Margin"
-            Value="5,3" />
-        <Setter
-            Property="MinHeight"
-            Value="34" />
-        <Setter
-            Property="HorizontalContentAlignment"
-            Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
-        <Setter
-            Property="Padding"
-            Value="0"/>
-        <Setter
-            Property="SnapsToDevicePixels"
-            Value="True" />
-        <Setter
-            Property="VerticalContentAlignment"
-            Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate
-                    TargetType="{x:Type ComboBoxItem}">
-                    <Grid>
-                        <Border
-                            x:Name="Border"
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="{DynamicResource ControlCornerRadius}"
-                            Padding="{TemplateBinding Padding}"
-                            SnapsToDevicePixels="True" >
-                            <ContentPresenter
-                                HorizontalAlignment="Left"
-                                Margin="16,0,0,0"
-                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                VerticalAlignment="Center" />
-                        </Border>
-                        <Border
-                            x:Name="Selector"
-                            BorderThickness="0"
-                            CornerRadius="{DynamicResource ControlCornerRadius}"
-                            Background="{DynamicResource AccentFillColorDefaultBrush}"
-                            HorizontalAlignment="Left"
-                            Margin="-1,9,0,9"
-                            VerticalAlignment="Stretch"
-                            Visibility="Collapsed"
-                            Width="3" />
-                    </Grid>
-                    <ControlTemplate.Triggers>
-                        <Trigger
-                            Property="IsSelected"
-                            Value="True" >
-                            <Setter
-                                Property="Background"
-                                TargetName="Border"
-                                Value="{DynamicResource SubtleFillColorSecondaryBrush}" />
-                            <Setter
-                                Property="Visibility"
-                                TargetName="Selector"
-                                Value="Visible" />
-                        </Trigger>
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition
-                                    Property="IsSelected"
-                                    Value="False" />
-                                <Condition
-                                    Property="IsMouseOver"
-                                    Value="True" />
-                            </MultiTrigger.Conditions>
-                            <Setter
-                                Property="Background"
-                                TargetName="Border"
-                                Value="{DynamicResource SubtleFillColorSecondaryBrush}" />
-                        </MultiTrigger>
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition
-                                    Property="IsSelected"
-                                    Value="True" />
-                                <Condition
-                                    Property="IsMouseOver"
-                                    Value="True" />
-                            </MultiTrigger.Conditions>
-                            <Setter
-                                Property="Background"
-                                TargetName="Border"
-                                Value="{DynamicResource SubtleFillColorTertiaryBrush}" />
-                            <Setter
-                                Property="Visibility"
-                                TargetName="Selector"
-                                Value="Visible" />
-                        </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

@@ -15,12 +15,13 @@ public partial class App : System.Windows.Application
 
         _ = Task.Run(async () =>
         {
-            using var scope = host.Services.CreateScope();
-            var db = scope.ServiceProvider.GetRequiredService<CoreFlowContext>();
+            using IServiceScope serviceScope = host.Services.CreateScope();
+            CoreFlowContext coreFlowContext = serviceScope.ServiceProvider.GetRequiredService<CoreFlowContext>();
             try
             {
-                await db.Database.OpenConnectionAsync();
-                await db.Database.CloseConnectionAsync();
+                await coreFlowContext.Database.MigrateAsync();
+                await coreFlowContext.Database.OpenConnectionAsync();
+                await coreFlowContext.Database.CloseConnectionAsync();
             }
             catch { }
         });
@@ -35,33 +36,49 @@ public partial class App : System.Windows.Application
         {
             _ = serviceCollection.AddAutoMapper(configAction => configAction.AddProfile<MappingProfile>());
 
-            _ = serviceCollection.AddDbContext<CoreFlowContext>(dbContextOptionsBuilder => dbContextOptionsBuilder.UseNpgsql(hostBuilderContext.Configuration.GetConnectionString("CoreFlow")));
+            _ = serviceCollection.AddDbContext<CoreFlowContext>(optionsAction => optionsAction.UseNpgsql(hostBuilderContext.Configuration.GetConnectionString("CoreFlow")).UseSnakeCaseNamingConvention());
 
             _ = serviceCollection.AddScoped<IUserRepository, UserRepository>();
-            _ = serviceCollection.AddScoped<ISystemRepository, SystemRepository>();
+            _ = serviceCollection.AddScoped<IAppSystemRepository, AppSystemRepository>();
 
             _ = serviceCollection.AddScoped<IUserService, UserService>();
-            _ = serviceCollection.AddScoped<ISystemService, SystemService>();
+            _ = serviceCollection.AddScoped<IAppSystemService, AppSystemService>();
 
             _ = serviceCollection.AddScoped<IMainWindowService, MainWindowService>();
             _ = serviceCollection.AddScoped<ILoginWindowService, LoginWindowService>();
 
             _ = serviceCollection.Configure<ThemeOptions>(hostBuilderContext.Configuration);
-            _ = serviceCollection.AddScoped<IThemeService, ThemeService>();
+            _ = serviceCollection.AddSingleton<IThemeService, ThemeService>();
 
             _ = serviceCollection.AddSingleton<ICurrentUserService, CurrentUserService>();
 
             _ = serviceCollection.AddSingleton<INotificationService, NotificationService>();
 
-            _ = serviceCollection.AddScoped<MainWindowViewModel>();
-            _ = serviceCollection.AddScoped<LoginWindowViewModel>();
+            _ = serviceCollection.AddSingleton<IConfirmationDialogService, ConfirmationDialogService>();
 
-            _ = serviceCollection.AddScoped<TitleBarViewModel>();
+            _ = serviceCollection.AddTransient<MainWindow>();
+            _ = serviceCollection.AddTransient<MainWindowViewModel>();
 
-            _ = serviceCollection.AddScoped<MainWindow>();
-            _ = serviceCollection.AddScoped<LoginWindow>();
+            _ = serviceCollection.AddTransient<LoginWindow>();
+            _ = serviceCollection.AddTransient<LoginWindowViewModel>();
 
-            _ = serviceCollection.AddScoped<TitleBar>();
+            _ = serviceCollection.AddTransient<TitleBar>();
+            _ = serviceCollection.AddTransient<TitleBarViewModel>();
+
+            _ = serviceCollection.AddTransient<SideNav>();
+            _ = serviceCollection.AddTransient<SideNavViewModel>();
+
+            _ = serviceCollection.AddTransient<SettingsPage>();
+            _ = serviceCollection.AddTransient<SettingsPageViewModel>();
+
+            _ = serviceCollection.AddTransient<AppSystemsPage>();
+            _ = serviceCollection.AddTransient<AppSystemsPageViewModel>();
+
+            _ = serviceCollection.AddTransient<UsersPage>();
+            _ = serviceCollection.AddTransient<UsersPageViewModel>();
+
+            _ = serviceCollection.AddSingleton<FrameNavigationService>();
+            _ = serviceCollection.AddSingleton<INavigationService>(implementationFactory => implementationFactory.GetRequiredService<FrameNavigationService>());
         });
     }
 
@@ -70,14 +87,20 @@ public partial class App : System.Windows.Application
         IServiceScope serviceScope = host.Services.CreateScope();
         IServiceProvider serviceProvider = serviceScope.ServiceProvider;
 
-        TWindow window = serviceProvider.GetRequiredService<TWindow>();
+        MainWindow mainWindow = serviceProvider.GetRequiredService<MainWindow>();
         IMainWindowService windowService = serviceProvider.GetRequiredService<IMainWindowService>();
         IThemeService themeService = serviceProvider.GetRequiredService<IThemeService>();
 
-        windowService.Initialize(window);
+        FrameNavigationService frameNavigationService = serviceProvider.GetRequiredService<FrameNavigationService>();
+        frameNavigationService.Initialize(mainWindow.Frame);
+        frameNavigationService.Configure("Settings", typeof(SettingsPage), cacheable: false);
+        frameNavigationService.Configure("AppSystems", typeof(AppSystemsPage), cacheable: true);
+        frameNavigationService.Configure("Users", typeof(UsersPage), cacheable: true);
+
+        windowService.Initialize(mainWindow);
         themeService.ApplyTheme();
 
-        window.Show();
-        window.Closed += (_, _) => serviceScope.Dispose();
+        mainWindow.Show();
+        mainWindow.Closed += (_, _) => serviceScope.Dispose();
     }
 }

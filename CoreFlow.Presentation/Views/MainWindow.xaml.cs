@@ -2,7 +2,9 @@
 
 public partial class MainWindow : Window
 {
-    public MainWindow(MainWindowViewModel mainWindowViewModel, TitleBar titleBar)
+    public Frame Frame => FrameControl;
+
+    public MainWindow(MainWindowViewModel mainWindowViewModel, TitleBar titleBar, SideNav sideNav)
     {
         InitializeComponent();
         UpdateIcon();
@@ -10,6 +12,7 @@ public partial class MainWindow : Window
         DataContext = mainWindowViewModel;
 
         TitleBarHost.Content = titleBar;
+        SideNavHost.Content = sideNav;
     }
 
     protected override void OnSourceInitialized(EventArgs e)

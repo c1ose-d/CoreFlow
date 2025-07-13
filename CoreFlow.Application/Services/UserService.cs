@@ -1,25 +1,27 @@
-﻿namespace CoreFlow.Application.Services;
+﻿using CoreFlow.Application.DTOs.AppSystem;
 
-public class UserService(IUserRepository userRepository, ISystemRepository systemRepository, IMapper mapper) : IUserService
+namespace CoreFlow.Application.Services;
+
+public class UserService(IUserRepository userRepository, IAppSystemRepository systemRepository, IMapper mapper) : IUserService
 {
     private readonly IUserRepository _userRepository = userRepository;
-    private readonly ISystemRepository _systemRepository = systemRepository;
+    private readonly IAppSystemRepository _systemRepository = systemRepository;
     private readonly IMapper _mapper = mapper;
 
     private async Task<UserDto> ToDtoAsync(Guid id)
     {
         User user = await _userRepository.GetByIdAsync(id) ?? throw new KeyNotFoundException();
-        List<Guid> systemIds = [.. user.UserSystems.Select(us => us.SystemId)];
+        List<Guid> systemIds = [.. user.UserAppSystems.Select(us => us.AppSystemId)];
 
-        List<SystemDto> systemDtos = new(systemIds.Count);
+        List<AppSystemDto> systemDtos = new(systemIds.Count);
         foreach (Guid sid in systemIds)
         {
-            Domain.Entities.System? system = await _systemRepository.GetByIdAsync(sid);
-            if (system == null)
+            AppSystem? appSystem = await _systemRepository.GetByIdAsync(sid);
+            if (appSystem == null)
             {
                 continue;
             }
-            systemDtos.Add(_mapper.Map<SystemDto>(system));
+            systemDtos.Add(_mapper.Map<AppSystemDto>(appSystem));
         }
         return new UserDto(user.Id, user.LastName, user.FirstName, user.MiddleName, user.UserName, user.IsAdmin, systemDtos);
     }
@@ -48,6 +50,12 @@ public class UserService(IUserRepository userRepository, ISystemRepository syste
         return userDtos;
     }
 
+    public async Task<IReadOnlyCollection<UserDto>> SearchAsync(string searchString)
+    {
+        List<User> users = await _userRepository.SearchAsync(searchString);
+        return [.. users.Select(_mapper.Map<UserDto>).Where(predicate => predicate.FullName.Contains(searchString, StringComparison.CurrentCultureIgnoreCase))];
+    }
+
     public async Task<UserDto> CreateAsync(CreateUserDto dto)
     {
         if (await _userRepository.ExistsByUserNameAsync(dto.UserName))
@@ -57,13 +65,10 @@ public class UserService(IUserRepository userRepository, ISystemRepository syste
 
         User user = new(dto.LastName, dto.FirstName, dto.MiddleName, dto.UserName, dto.Password, dto.IsAdmin);
 
-        foreach (Guid systemId in dto.SystemIds)
+        foreach (Guid appSystemId in dto.AppSystemIds)
         {
-            if (await _systemRepository.ExistsAsync(systemId))
-            {
-                throw new KeyNotFoundException($"System {systemId} not found.");
-            }
-            user.AddSystem(systemId);
+            AppSystem appSystem = await _systemRepository.GetByIdAsync(appSystemId) ?? throw new KeyNotFoundException($"System {appSystemId} not found.");
+            user.AddAppSystem(appSystem);
         }
 
         await _userRepository.CreateAsync(user);
@@ -75,34 +80,24 @@ public class UserService(IUserRepository userRepository, ISystemRepository syste
     {
         User user = await _userRepository.GetByIdAsync(dto.Id) ?? throw new KeyNotFoundException("User not found.");
 
-        if (dto.LastName != null)
+        bool isChangeUserName = false;
+        if (dto.UserName != null)
         {
-            user.LastName = dto.LastName;
+            if (!await _userRepository.ExistsByUserNameNotIdAsync(dto.UserName, user.Id))
+            {
+                isChangeUserName = true;
+            }
+            else
+            {
+                throw new InvalidOperationException("User name already taken.");
+            }
         }
 
-        if (dto.FirstName != null)
-        {
-            user.FirstName = dto.FirstName;
-        }
-
-        if (dto.MiddleName != null)
-        {
-            user.MiddleName = dto.MiddleName;
-        }
+        user.Update(dto.LastName, dto.FirstName, dto.MiddleName, dto.UserName != null && isChangeUserName ? dto.UserName : null);
 
         if (dto.IsAdmin != null)
         {
             user.SetAdmin(dto.IsAdmin.Value);
-        }
-
-        if (dto.UserName != null)
-        {
-            if (await _userRepository.ExistsByUserNameAsync(dto.UserName) && dto.UserName != user.UserName)
-            {
-                throw new InvalidOperationException("Username already taken.");
-            }
-
-            user.ChangeUserName(dto.UserName);
         }
 
         if (dto.Password != null)
@@ -110,21 +105,17 @@ public class UserService(IUserRepository userRepository, ISystemRepository syste
             user.ChangePassword(dto.Password);
         }
 
-        if (dto.SystemIds != null)
+        if (dto.AppSystemIds != null)
         {
-            foreach (UserSystem userSystem in user.UserSystems.ToList())
+            foreach (UserAppSystem userSystem in user.UserAppSystems.ToList())
             {
-                user.RemoveSystem(userSystem.SystemId);
+                user.RemoveAppSystem(userSystem.AppSystemId);
             }
 
-            foreach (Guid systemId in dto.SystemIds)
+            foreach (Guid systemId in dto.AppSystemIds)
             {
-                if (await _systemRepository.ExistsAsync(systemId))
-                {
-                    throw new KeyNotFoundException($"System {systemId} not found.");
-                }
-
-                user.AddSystem(systemId);
+                AppSystem appSystem = await _systemRepository.GetByIdAsync(systemId) ?? throw new KeyNotFoundException($"System {systemId} not found.");
+                user.AddAppSystem(appSystem);
             }
         }
 

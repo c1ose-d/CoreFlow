@@ -28,7 +28,7 @@
     <Using Include="CommunityToolkit.Mvvm.ComponentModel" />
     <Using Include="CommunityToolkit.Mvvm.Input" />
     <Using Include="CoreFlow.Application.DTOs" />
-    <Using Include="CoreFlow.Application.DTOs.System" />
+    <Using Include="CoreFlow.Application.DTOs.AppSystem" />
     <Using Include="CoreFlow.Application.DTOs.User" />
     <Using Include="CoreFlow.Application.Interfaces" />
     <Using Include="CoreFlow.Application.Mappings" />
@@ -48,7 +48,9 @@
     <Using Include="Microsoft.Extensions.Options" />
     <Using Include="Microsoft.Win32" />
     <Using Include="Newtonsoft.Json.Linq" />
+    <Using Include="System.Collections" />
     <Using Include="System.Collections.ObjectModel" />
+    <Using Include="System.Collections.Specialized" />
     <Using Include="System.Globalization" />
     <Using Include="System.IO" />
     <Using Include="System.Runtime.InteropServices" />
@@ -64,6 +66,7 @@
 
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+    <PackageReference Include="EFCore.NamingConventions" Version="9.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.0-preview.5.25277.114">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

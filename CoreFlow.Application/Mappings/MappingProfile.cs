@@ -1,4 +1,6 @@
-﻿namespace CoreFlow.Application.Mappings;
+﻿using CoreFlow.Application.DTOs.AppSystem;
+
+namespace CoreFlow.Application.Mappings;
 
 public class MappingProfile : Profile
 {
@@ -8,8 +10,8 @@ public class MappingProfile : Profile
         _ = CreateMap<CreateUserDto, User>();
         _ = CreateMap<UpdateUserDto, User>();
 
-        _ = CreateMap<Domain.Entities.System, SystemDto>();
-        _ = CreateMap<CreateSystemDto, Domain.Entities.System>();
-        _ = CreateMap<UpdateSystemDto, Domain.Entities.System>();
+        _ = CreateMap<Domain.Entities.AppSystem, AppSystemDto>();
+        _ = CreateMap<CreateAppSystemDto, Domain.Entities.AppSystem>();
+        _ = CreateMap<UpdateAppSystemDto, Domain.Entities.AppSystem>();
     }
 }

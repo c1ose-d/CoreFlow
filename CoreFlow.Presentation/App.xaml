@@ -1,25 +1,33 @@
 ﻿<Application
     x:Class="CoreFlow.Presentation.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:local="clr-namespace:CoreFlow.Presentation.Resources.Styles.Shared"
+    xmlns:shared="clr-namespace:CoreFlow.Presentation.Resources.Styles.Shared"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" >
     <Application.Resources>
         <ResourceDictionary>
-            <local:StringEmptyToVisibilityConverter
+            <shared:NotNullConverter
+                x:Key="NotNullConverter" />
+            <shared:StringEmptyToVisibilityConverter
                 x:Key="StringEmptyToVisibilityConverter" />
-            <local:StringNotEmptyToVisibilityConverter
+            <shared:StringNotEmptyToVisibilityConverter
                 x:Key="StringNotEmptyToVisibilityConverter" />
             <ResourceDictionary.MergedDictionaries>
                 <!--Controls-->
                 <ResourceDictionary
                     Source="/Resources/Styles/Controls/BasicInput.xaml" />
                 <ResourceDictionary
+                    Source="/Resources/Styles/Controls/Collections.xaml" />
+                <ResourceDictionary
                     Source="/Resources/Styles/Controls/Primitives.xaml" />
+                <ResourceDictionary
+                    Source="/Resources/Styles/Controls/Scrolling.xaml" />
                 <ResourceDictionary
                     Source="/Resources/Styles/Controls/TextFields.xaml" />
                 <!--Shared-->
                 <ResourceDictionary
                     Source="/Resources/Styles/Shared/Geometry.xaml" />
+                <ResourceDictionary
+                    Source="/Resources/Styles/Shared/SideNav.xaml" />
                 <ResourceDictionary
                     Source="/Resources/Styles/Shared/TitleBar.xaml" />
                 <ResourceDictionary

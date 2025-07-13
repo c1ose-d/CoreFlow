@@ -1,0 +1,55 @@
+﻿<UserControl
+    x:Class="CoreFlow.Presentation.Views.SideNav"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:shared="clr-namespace:CoreFlow.Presentation.Resources.Styles.Shared"
+    xmlns:viewmodels="clr-namespace:CoreFlow.Presentation.ViewModels"
+    mc:Ignorable="d"
+    d:DataContext="{d:DesignInstance viewmodels:SideNavViewModel}"
+    d:DesignHeight="500"
+    d:DesignWidth="320" >
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition
+                Height="Auto" />
+            <RowDefinition />
+            <RowDefinition
+                Height="Auto" />
+        </Grid.RowDefinitions>
+        <Button
+            Command="{Binding ChangeWidthCommand}"
+            Style="{DynamicResource MenuButton}" />
+        <ListView
+            Grid.Row="1"
+            SelectedValue="{Binding SelectedMenuKey, Mode=TwoWay}"
+            SelectedValuePath="Tag"
+            Style="{DynamicResource ListView}"
+            Width="{Binding NavigationWidth}" >
+            <ListViewItem
+                shared:NavItemProperties.Icon="&#xF246;"
+                shared:NavItemProperties.Text="Мониторинг"
+                Style="{Binding NavigationStyle}"
+                Tag="Monitorings" />
+            <ListViewItem
+                shared:NavItemProperties.Icon="&#xE756;"
+                shared:NavItemProperties.Text="Серверные скрипты"
+                Style="{Binding NavigationStyle}"
+                Tag="ServerScripts" />
+        </ListView>
+        <ListView
+            Grid.Row="2"
+            Margin="0,0,0,3"
+            SelectedValue="{Binding SelectedBottomMenuKey, Mode=TwoWay}"
+            SelectedValuePath="Tag"
+            Style="{DynamicResource ListView}"
+            Width="{Binding NavigationWidth}" >
+            <ListViewItem
+                shared:NavItemProperties.Icon="&#xE713;"
+                shared:NavItemProperties.Text="Настройки"
+                Style="{Binding NavigationStyle}"
+                Tag="Settings" />
+        </ListView>
+    </Grid>
+</UserControl>

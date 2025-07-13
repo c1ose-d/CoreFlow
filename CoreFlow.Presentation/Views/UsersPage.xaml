@@ -1,0 +1,107 @@
+﻿<Page
+    x:Class="CoreFlow.Presentation.Views.UsersPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:CoreFlow.Presentation.Controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:shared="clr-namespace:CoreFlow.Presentation.Resources.Styles.Shared"
+    xmlns:viewmodels="clr-namespace:CoreFlow.Presentation.ViewModels"
+    mc:Ignorable="d"
+    d:DataContext="{d:DesignInstance viewmodels:UsersPageViewModel}"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    Title="Информационные системы"
+    Loaded="Page_Loaded" >
+    <Border
+        Padding="33,0">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition
+                    Height="Auto" />
+                <RowDefinition
+                    Height="Auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <TextBlock
+                Margin="3,0,3,36"
+                Text="{Binding Title, RelativeSource={RelativeSource AncestorType=Page}}"
+                Style="{DynamicResource TitleTextBlockStyle}" />
+            <Grid
+                Grid.Row="1"
+                Margin="3,0,3,24" >
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid
+                    Margin="0,0,0,16" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition
+                        Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <controls:TextBox
+                        Placeholder="Поисковая строка"
+                        Text="{Binding SearchString, UpdateSourceTrigger=PropertyChanged}" />
+                    <Button
+                        Command="{Binding SearchCommand}"
+                        Content="Поиск"
+                        Grid.Column="1"
+                        IsDefault="True"
+                        Margin="8,0,0,0"
+                        Style="{DynamicResource Button.Standard.TextOnly}" />
+                </Grid>
+                <Grid
+                    Grid.Row="1" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition
+                            Width="Auto" />
+                        <ColumnDefinition
+                            Width="Auto" />
+                        <ColumnDefinition
+                            Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Button
+                        Command="{Binding CreateCommand}"
+                        Content="Добавить"
+                        Grid.Column="1"
+                        Margin="0,0,8,0"
+                        Style="{DynamicResource Button.Standard.TextOnly}" />
+                    <Button
+                        Command="{Binding UpdateCommand}"
+                        Content="Изменить"
+                        Grid.Column="2"
+                        IsEnabled="{Binding SelectedKey, Converter={StaticResource NotNullConverter}}"
+                        Margin="0,0,8,0"
+                        Style="{DynamicResource Button.Standard.TextOnly}" />
+                    <Button
+                        Command="{Binding DeleteCommand}"
+                        Content="Удалить"
+                        Grid.Column="3"
+                        IsEnabled="{Binding SelectedKey, Converter={StaticResource NotNullConverter}}"
+                        Style="{DynamicResource Button.Standard.TextOnly}" />
+                </Grid>
+            </Grid>
+            <ListView
+                Grid.Row="2"
+                ItemsSource="{Binding UserDto}"
+                SelectedValue="{Binding SelectedKey, Mode=TwoWay}"
+                Style="{DynamicResource ListView}" >
+                <ListView.ItemContainerStyle>
+                    <Style
+                        TargetType="{x:Type ListViewItem}"
+                        BasedOn="{StaticResource ListViewItem.ListItem.TextCaption}" >
+                        <Setter
+                            Property="shared:ListItemProperties.Caption"
+                            Value="{Binding UserName}" />
+                        <Setter
+                            Property="shared:ListItemProperties.Text"
+                            Value="{Binding FullName}" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+            </ListView>
+        </Grid>
+    </Border>
+</Page>

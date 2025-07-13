@@ -6,6 +6,8 @@ public interface IUserService
     Task<UserDto> GetByUserNamePasswordAsync(string userName, string password);
     Task<IReadOnlyCollection<UserDto>> GetAllAsync();
 
+    Task<IReadOnlyCollection<UserDto>> SearchAsync(string searchString);
+
     Task<UserDto> CreateAsync(CreateUserDto dto);
 
     Task<UserDto> UpdateAsync(UpdateUserDto dto);

@@ -33,7 +33,7 @@
                 <RowDefinition />
             </Grid.RowDefinitions>
             <Border
-                Margin="24,32,24,24">
+                Margin="24,32,24,24" >
                 <controls:Grid
                     Grid.Row="1"
                     Orientation="Vertical"

@@ -44,7 +44,7 @@
   <ItemGroup>
     <Using Include="AutoMapper" />
     <Using Include="CoreFlow.Application.DTOs" />
-    <Using Include="CoreFlow.Application.DTOs.System" />
+    <Using Include="CoreFlow.Application.DTOs.AppSystem" />
     <Using Include="CoreFlow.Application.DTOs.User" />
     <Using Include="CoreFlow.Application.Interfaces" />
     <Using Include="CoreFlow.Domain.Entities" />

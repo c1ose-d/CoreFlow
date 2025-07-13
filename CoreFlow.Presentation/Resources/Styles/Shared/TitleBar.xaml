@@ -154,7 +154,7 @@
             Value="0" />
         <Setter
             Property="FocusVisualStyle"
-            Value="{DynamicResource FocusRect}"/>
+            Value="{DynamicResource FocusRect}" />
         <Setter
             Property="Foreground"
             Value="{DynamicResource TextFillColorPrimaryBrush}" />
@@ -274,7 +274,7 @@
             Value="&#xE8BB;" />
         <Setter
             Property="FocusVisualStyle"
-            Value="{DynamicResource FocusRect}"/>
+            Value="{DynamicResource FocusRect}" />
         <Setter
             Property="Foreground"
             Value="{DynamicResource TextFillColorPrimaryBrush}" />

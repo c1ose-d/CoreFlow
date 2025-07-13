@@ -1,4 +1,6 @@
-﻿namespace CoreFlow.Presentation.ViewModels;
+﻿using CoreFlow.Application.DTOs.AppSystem;
+
+namespace CoreFlow.Presentation.ViewModels;
 
 public partial class TitleBarViewModel : ObservableObject
 {
@@ -35,7 +37,7 @@ public partial class TitleBarViewModel : ObservableObject
     private string? _fullName;
 
     [ObservableProperty]
-    private ObservableCollection<SystemDto> _systemDto = [];
+    private ObservableCollection<AppSystemDto> _systemDto = [];
 
     [RelayCommand]
     private async Task User(bool? onLoaded = false)
@@ -47,7 +49,7 @@ public partial class TitleBarViewModel : ObservableObject
         }
 
         FullName = UserDto.FullName;
-        SystemDto = new ObservableCollection<SystemDto>(UserDto.Systems);
+        SystemDto = new ObservableCollection<AppSystemDto>(UserDto.AppSystems);
     }
 
     [RelayCommand]

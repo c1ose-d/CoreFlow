@@ -10,37 +10,21 @@ public partial class User
     public string Password { get; set; } = null!;
     public bool IsAdmin { get; set; }
 
-    private readonly List<UserSystem> _userSystems = [];
-    public IReadOnlyCollection<UserSystem> UserSystems => _userSystems.AsReadOnly();
+    private readonly List<UserAppSystem> _userAppSystems = [];
+    public IReadOnlyCollection<UserAppSystem> UserAppSystems => _userAppSystems;
 
     private User() { }
 
     public User(string lastName, string firstName, string? middleName, string userName, string password, bool isAdmin = false)
     {
-        if (string.IsNullOrWhiteSpace(lastName) || lastName.Length > 50)
+        ValidateLastName(lastName);
+        ValidateFirstName(firstName);
+        if (middleName != null)
         {
-            throw new ArgumentException("Last name required, ≤50 chars.", nameof(lastName));
+            ValidateMiddleName(middleName);
         }
-
-        if (string.IsNullOrWhiteSpace(firstName) || firstName.Length > 50)
-        {
-            throw new ArgumentException("First name required, ≤50 chars.", nameof(firstName));
-        }
-
-        if (!string.IsNullOrWhiteSpace(middleName) && middleName.Length > 50)
-        {
-            throw new ArgumentException("Middle name ≤50 chars.", nameof(middleName));
-        }
-
-        if (string.IsNullOrWhiteSpace(userName) || userName.Length > 50)
-        {
-            throw new ArgumentException("User name required, ≤50 chars.", nameof(userName));
-        }
-
-        if (string.IsNullOrWhiteSpace(password) || password.Length > 50)
-        {
-            throw new ArgumentException("Password required, ≤50 chars.", nameof(password));
-        }
+        ValidateUserName(userName);
+        ValidatePassword(password);
 
         Id = Guid.NewGuid();
         LastName = lastName;
@@ -51,23 +35,36 @@ public partial class User
         IsAdmin = isAdmin;
     }
 
-    public void ChangeUserName(string userName)
+    public void Update(string? lastName = null, string? firstName = null, string? middleName = null, string? userName = null)
     {
-        if (string.IsNullOrWhiteSpace(userName) || userName.Length > 50)
+        if (lastName != null)
         {
-            throw new ArgumentException("User name required, ≤50 chars.", nameof(userName));
+            ValidateLastName(lastName);
+            LastName = lastName;
         }
 
-        UserName = userName;
+        if (firstName != null)
+        {
+            ValidateFirstName(firstName);
+            FirstName = firstName;
+        }
+
+        if (middleName != null)
+        {
+            ValidateMiddleName(middleName);
+            MiddleName = middleName;
+        }
+
+        if (userName != null)
+        {
+            ValidateUserName(userName);
+            UserName = userName;
+        }
     }
 
     public void ChangePassword(string password)
     {
-        if (string.IsNullOrWhiteSpace(password) || password.Length > 50)
-        {
-            throw new ArgumentException("Password required, ≤50 chars.", nameof(password));
-        }
-
+        ValidatePassword(password);
         Password = password;
     }
 
@@ -76,23 +73,63 @@ public partial class User
         IsAdmin = isAdmin;
     }
 
-    public void AddSystem(Guid systemId)
+    public void AddAppSystem(AppSystem appSystem)
     {
-        if (_userSystems.Any(userSystem => userSystem.SystemId == systemId))
+        if (_userAppSystems.Any(userSystem => userSystem.AppSystemId == appSystem.Id))
         {
             return;
         }
 
-        _userSystems.Add(new UserSystem(Id, systemId));
+        _userAppSystems.Add(new UserAppSystem(this, appSystem));
     }
 
-    public void RemoveSystem(Guid systemId)
+    public void RemoveAppSystem(Guid appSystemId)
     {
-        UserSystem? userSystem = _userSystems.FirstOrDefault(us => us.SystemId == systemId);
+        UserAppSystem? userAppSystem = _userAppSystems.FirstOrDefault(us => us.AppSystemId == appSystemId);
 
-        if (userSystem != null)
+        if (userAppSystem != null)
         {
-            _ = _userSystems.Remove(userSystem);
+            _ = _userAppSystems.Remove(userAppSystem);
+        }
+    }
+
+    private static void ValidateLastName(string lastName)
+    {
+        if (string.IsNullOrWhiteSpace(lastName) || lastName.Length > 50)
+        {
+            throw new ArgumentException("Last name required, ≤50 chars.", nameof(lastName));
+        }
+    }
+
+    private static void ValidateFirstName(string firstName)
+    {
+        if (string.IsNullOrWhiteSpace(firstName) || firstName.Length > 50)
+        {
+            throw new ArgumentException("First name required, ≤50 chars.", nameof(firstName));
+        }
+    }
+
+    private static void ValidateMiddleName(string middleName)
+    {
+        if (string.IsNullOrWhiteSpace(middleName) || middleName.Length > 50)
+        {
+            throw new ArgumentException("Middle name ≤50 chars.", nameof(middleName));
+        }
+    }
+
+    private static void ValidateUserName(string userName)
+    {
+        if (string.IsNullOrWhiteSpace(userName) || userName.Length > 50)
+        {
+            throw new ArgumentException("User name required, ≤50 chars.", nameof(userName));
+        }
+    }
+
+    private static void ValidatePassword(string password)
+    {
+        if (string.IsNullOrWhiteSpace(password) || password.Length > 50)
+        {
+            throw new ArgumentException("Password required, ≤50 chars.", nameof(password));
         }
     }
 }
