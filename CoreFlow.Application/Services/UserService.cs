@@ -1,6 +1,4 @@
-﻿using CoreFlow.Application.DTOs.AppSystem;
-
-namespace CoreFlow.Application.Services;
+﻿namespace CoreFlow.Application.Services;
 
 public class UserService(IUserRepository userRepository, IAppSystemRepository systemRepository, IMapper mapper) : IUserService
 {
@@ -52,8 +50,15 @@ public class UserService(IUserRepository userRepository, IAppSystemRepository sy
 
     public async Task<IReadOnlyCollection<UserDto>> SearchAsync(string searchString)
     {
-        List<User> users = await _userRepository.SearchAsync(searchString);
-        return [.. users.Select(_mapper.Map<UserDto>).Where(predicate => predicate.FullName.Contains(searchString, StringComparison.CurrentCultureIgnoreCase))];
+        List<User> users = await _userRepository.SearchAsync();
+        List<UserDto> userDtos = new(users.Count);
+
+        foreach (User user in users)
+        {
+            userDtos.Add(await ToDtoAsync(user.Id));
+        }
+
+        return [.. userDtos.Where(predicate => predicate.UserName.Contains(searchString, StringComparison.CurrentCultureIgnoreCase) || predicate.FullName.Contains(searchString, StringComparison.CurrentCultureIgnoreCase))];
     }
 
     public async Task<UserDto> CreateAsync(CreateUserDto dto)
@@ -123,8 +128,8 @@ public class UserService(IUserRepository userRepository, IAppSystemRepository sy
         return await ToDtoAsync(user.Id);
     }
 
-    public Task DeleteAsync(Guid id)
+    public async Task DeleteAsync(Guid id)
     {
-        return _userRepository.DeleteAsync(id);
+        await _userRepository.DeleteAsync(id);
     }
 }

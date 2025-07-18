@@ -14,14 +14,13 @@
     <Compile Remove="Interfaces\IRebootCommandRepository.cs" />
     <Compile Remove="Interfaces\IRebootListRepository.cs" />
     <Compile Remove="Interfaces\IRebootRepository.cs" />
-    <Compile Remove="Interfaces\IServerBlockRepository.cs" />
-    <Compile Remove="Interfaces\IServerRepository.cs" />
     <Compile Remove="Interfaces\ISystemIdRepository.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <Using Include="CoreFlow.Domain.Entities" />
     <Using Include="CoreFlow.Domain.Interfaces" />
+    <Using Include="System.Net" />
   </ItemGroup>
 
 </Project>

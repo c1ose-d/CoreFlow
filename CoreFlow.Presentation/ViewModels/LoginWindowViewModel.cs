@@ -21,6 +21,7 @@ public partial class LoginWindowViewModel(IUserService userService, INotificatio
             UserDto result = await _userService.GetByUserNamePasswordAsync(UserName, Password);
 
             UserDto = result;
+
             _notificationService.Show("Авторизация", $"Пользователь {UserDto.FullName} успешно авторизовался.", NotificationType.Success);
             window.DialogResult = true;
         }

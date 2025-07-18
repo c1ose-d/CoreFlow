@@ -4,23 +4,54 @@ public class ServerRepository(CoreFlowContext coreFlowContext) : IServerReposito
 {
     private readonly CoreFlowContext _coreFlowContext = coreFlowContext;
 
+    public async Task<bool> ExistsAsync(Guid id)
+    {
+        return await _coreFlowContext
+            .Servers
+            .AnyAsync(predicate => predicate.Id == id);
+    }
+
+    public async Task<bool> ExistsByIpAddressServerBlockIdAsync(string ipAddress, Guid serverBlockId)
+    {
+        return await _coreFlowContext
+            .Servers
+            .AnyAsync(predicate => predicate.IpAddress == ipAddress && predicate.ServerBlockId == serverBlockId);
+    }
+
     public async Task<Server?> GetByIdAsync(Guid id)
     {
-        return await _coreFlowContext.Servers.Include(x => x.Block).FirstOrDefaultAsync(x => x.Id == id);
+        return await _coreFlowContext
+            .Servers
+            .Include(navigationPropertyPath => navigationPropertyPath.ServerBlock)
+            .FirstOrDefaultAsync(predicate => predicate.Id == id);
     }
 
-    public async Task<IReadOnlyCollection<Server>> GetAllAsync()
+    public async Task<List<Server>> GetAllAsync()
     {
-        return await _coreFlowContext.Servers.AsNoTracking().Include(x => x.Block).ToListAsync();
+        return await _coreFlowContext
+            .Servers
+            .Include(navigationPropertyPath => navigationPropertyPath.ServerBlock)
+            .ToListAsync();
     }
 
-    public async Task AddAsync(Server server)
+    public async Task<List<Server>> SearchAsync(string searchString)
+    {
+        string? lower = !string.IsNullOrWhiteSpace(searchString) ? searchString.ToLower() : string.Empty;
+
+        return await _coreFlowContext
+            .Servers
+            .Where(predicate => EF.Functions.Like(predicate.IpAddress, $"%{lower}") || EF.Functions.Like(predicate.HostName, $"%{lower}"))
+            .Include(navigationPropertyPath => navigationPropertyPath.ServerBlock)
+            .ToListAsync();
+    }
+
+    public async Task CreateAsync(Server server)
     {
         _ = await _coreFlowContext.Servers.AddAsync(server);
         _ = await _coreFlowContext.SaveChangesAsync();
     }
 
-    public async Task EditAsync(Server server)
+    public async Task UpdateAsync(Server server)
     {
         _ = _coreFlowContext.Servers.Update(server);
         _ = await _coreFlowContext.SaveChangesAsync();
@@ -28,8 +59,7 @@ public class ServerRepository(CoreFlowContext coreFlowContext) : IServerReposito
 
     public async Task DeleteAsync(Guid id)
     {
-        Server? server = _coreFlowContext.Servers.Find(id);
-
+        Server? server = await GetByIdAsync(id);
         if (server != null)
         {
             _ = _coreFlowContext.Servers.Remove(server);

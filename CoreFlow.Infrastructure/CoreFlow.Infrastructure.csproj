@@ -13,16 +13,10 @@
     <Compile Remove="Repositories\RebootCommandRepository.cs" />
     <Compile Remove="Repositories\RebootListRepository.cs" />
     <Compile Remove="Repositories\RebootRepository.cs" />
-    <Compile Remove="Repositories\ServerBlockRepository.cs" />
-    <Compile Remove="Repositories\ServerRepository.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.0-preview.5.25277.114">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.0-preview.6.25358.103">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -30,10 +24,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CoreFlow.Application\CoreFlow.Application.csproj" />
     <ProjectReference Include="..\CoreFlow.Domain\CoreFlow.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <Using Include="CoreFlow.Application.Interfaces" />
     <Using Include="CoreFlow.Domain.Entities" />
     <Using Include="CoreFlow.Domain.Interfaces" />
     <Using Include="CoreFlow.Infrastructure.Data" />
@@ -41,6 +37,9 @@
     <Using Include="Microsoft.EntityFrameworkCore.ChangeTracking" />
     <Using Include="Microsoft.EntityFrameworkCore.Design" />
     <Using Include="Microsoft.EntityFrameworkCore.Metadata.Builders" />
+    <Using Include="System.Net.NetworkInformation" />
+    <Using Include="System.Security.Cryptography" />
+    <Using Include="System.Text" />
   </ItemGroup>
 
 </Project>

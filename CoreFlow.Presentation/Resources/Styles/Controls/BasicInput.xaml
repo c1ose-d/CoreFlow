@@ -590,7 +590,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <!--Chack Box-->
+    <!--Check Box-->
     <Style
         x:Key="CheckBox"
         TargetType="{x:Type CheckBox}" >
@@ -684,7 +684,7 @@
                         </Trigger>
                         <Trigger
                             Property="IsChecked"
-                            Value="True">
+                            Value="True" >
                             <Setter
                                 Property="Background"
                                 TargetName="CheckBoxBorder"
@@ -716,7 +716,7 @@
                             <Setter
                                 Property="BorderBrush"
                                 TargetName="CheckBoxBorder"
-                                Value="{DynamicResource ControlStrongFillColorDisabledBrush}"/>
+                                Value="{DynamicResource ControlStrongFillColorDisabledBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

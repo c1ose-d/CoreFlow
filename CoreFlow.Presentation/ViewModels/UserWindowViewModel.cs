@@ -10,7 +10,9 @@ public partial class UserWindowViewModel : ObservableObject, IWindowLoadedAware
 
     private readonly bool _isEdit;
 
-    private readonly List<Guid> _originalSystemIds = [];
+    public UserDto? _userDto;
+
+    private readonly HashSet<Guid> _originalSystemIds = [];
 
     public event Action<bool>? RequestClose;
 
@@ -18,9 +20,6 @@ public partial class UserWindowViewModel : ObservableObject, IWindowLoadedAware
 
     [ObservableProperty]
     private string _windowTitle;
-
-    [ObservableProperty]
-    public UserDto? _userDto;
 
     [ObservableProperty]
     public string? _lastName;
@@ -62,8 +61,8 @@ public partial class UserWindowViewModel : ObservableObject, IWindowLoadedAware
             _middleName = _userDto.MiddleName;
             _userName = _userDto.UserName;
             _isAdmin = _userDto.IsAdmin;
-            _originalSystemIds = [.. _userDto.AppSystems.Select(x => x.Id)];
         }
+        _originalSystemIds = userDto?.AppSystems.Select(x => x.Id).ToHashSet() ?? [];
 
         PropertyChanged += (s, e) =>
         {
@@ -76,15 +75,13 @@ public partial class UserWindowViewModel : ObservableObject, IWindowLoadedAware
 
     public async Task Loaded()
     {
-        Items = new ObservableCollection<AppSystemDto>(await _appSystemService.GetAllAsync());
+        IReadOnlyCollection<AppSystemDto> all = await _appSystemService.GetAllAsync();
+        Items = new ObservableCollection<AppSystemDto>(all);
 
-        var origIds = _userDto?.AppSystems.Select(x => x.Id).ToHashSet() ?? new HashSet<Guid>();
-        SelectedItems = new ObservableCollection<AppSystemDto>(
-            Items.Where(x => origIds.Contains(x.Id)));
-
+        SelectedItems = new ObservableCollection<AppSystemDto>([.. Items.Where(x => _originalSystemIds.Contains(x.Id))]);
         SelectedItems.CollectionChanged += (_, _) =>
         {
-            _ = _dirty.Add(nameof(SelectedItems));
+            _dirty.Add(nameof(SelectedItems));
         };
     }
 
@@ -111,7 +108,7 @@ public partial class UserWindowViewModel : ObservableObject, IWindowLoadedAware
                         appSystemIds = [.. appSystems.Select(x => x.Id)];
                     }
 
-                    _ = await _userService.UpdateAsync(new UpdateUserDto(UserDto!.Id, lastName, firstName, middleName, userName, password, isAdmin, appSystemIds));
+                    _ = await _userService.UpdateAsync(new UpdateUserDto(_userDto!.Id, lastName, firstName, middleName, userName, password, isAdmin, appSystemIds));
                 }
                 else
                 {

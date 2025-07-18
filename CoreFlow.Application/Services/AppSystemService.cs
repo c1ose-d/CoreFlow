@@ -23,6 +23,7 @@ public class AppSystemService(IAppSystemRepository appSystemRepository, IMapper 
     public async Task<IReadOnlyCollection<AppSystemDto>> SearchAsync(string searchString)
     {
         List<AppSystem> appSystems = await _appSystemRepository.SearchAsync(searchString);
+
         return [.. appSystems.Select(_mapper.Map<AppSystemDto>)];
     }
 
@@ -47,8 +48,8 @@ public class AppSystemService(IAppSystemRepository appSystemRepository, IMapper 
         return _mapper.Map<AppSystemDto>(appSystem);
     }
 
-    public Task DeleteAsync(Guid id)
+    public async Task DeleteAsync(Guid id)
     {
-        return _appSystemRepository.DeleteAsync(id);
+        await _appSystemRepository.DeleteAsync(id);
     }
 }

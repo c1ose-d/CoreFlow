@@ -51,14 +51,7 @@
                     <controls:Grid
                         Orientation="Vertical"
                         Spacing="16" >
-                        <controls:Grid.RowDefinitions>
-                            <RowDefinition
-                                Height="Auto" />
-                            <RowDefinition />
-                            <RowDefinition />
-                        </controls:Grid.RowDefinitions>
                         <controls:Grid
-                            Grid.Row="1"
                             Orientation="Vertical"
                             Spacing="12" >
                             <TextBlock
@@ -69,7 +62,6 @@
                                 Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}" />
                         </controls:Grid>
                         <controls:Grid
-                            Grid.Row="1"
                             Orientation="Vertical"
                             Spacing="12" >
                             <TextBlock
@@ -80,7 +72,6 @@
                                 Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}" />
                         </controls:Grid>
                         <controls:Grid
-                            Grid.Row="1"
                             Orientation="Vertical"
                             Spacing="12" >
                             <TextBlock
@@ -91,7 +82,6 @@
                                 Text="{Binding MiddleName, UpdateSourceTrigger=PropertyChanged}" />
                         </controls:Grid>
                         <controls:Grid
-                            Grid.Row="1"
                             Orientation="Vertical"
                             Spacing="12" >
                             <TextBlock
@@ -102,7 +92,6 @@
                                 Text="{Binding UserName, UpdateSourceTrigger=PropertyChanged}" />
                         </controls:Grid>
                         <controls:Grid
-                            Grid.Row="1"
                             Orientation="Vertical"
                             Spacing="12" >
                             <TextBlock
@@ -117,14 +106,14 @@
                             IsChecked="{Binding IsAdmin, UpdateSourceTrigger=PropertyChanged}"
                             Style="{DynamicResource CheckBox}" />
                         <controls:Grid
-                            Grid.Row="1"
                             Orientation="Vertical"
                             Spacing="12" >
                             <TextBlock
                                 Style="{DynamicResource BodyTextBlockStyle}"
                                 Text="Информационные системы" />
                             <ListView
-                                shared:ListViewProperties.SelectedItems="{Binding SelectedItems, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                x:Name="SystemsList"
+                                shared:ListViewProperties.SelectedItems="{Binding SelectedItems}"
                                 ItemsSource="{Binding Items}"
                                 SelectionMode="Multiple"
                                 Style="{DynamicResource ListView}" >

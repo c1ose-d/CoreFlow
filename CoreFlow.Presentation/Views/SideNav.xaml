@@ -23,6 +23,7 @@
             Style="{DynamicResource MenuButton}" />
         <ListView
             Grid.Row="1"
+            IsEnabled="{Binding IsMenuEnabled}"
             SelectedValue="{Binding SelectedMenuKey, Mode=TwoWay}"
             SelectedValuePath="Tag"
             Style="{DynamicResource ListView}"
@@ -40,6 +41,7 @@
         </ListView>
         <ListView
             Grid.Row="2"
+            IsEnabled="{Binding IsMenuEnabled}"
             Margin="0,0,0,3"
             SelectedValue="{Binding SelectedBottomMenuKey, Mode=TwoWay}"
             SelectedValuePath="Tag"

@@ -2,9 +2,15 @@
 
 public interface IServerRepository
 {
+    Task<bool> ExistsAsync(Guid id);
+    Task<bool> ExistsByIpAddressServerBlockIdAsync(string ipAddress, Guid serverBlockId);
+
     Task<Server?> GetByIdAsync(Guid id);
-    Task<IReadOnlyCollection<Server>> GetAllAsync();
-    Task AddAsync(Server server);
-    Task EditAsync(Server server);
+    Task<List<Server>> GetAllAsync();
+
+    Task<List<Server>> SearchAsync(string searchString);
+
+    Task CreateAsync(Server server);
+    Task UpdateAsync(Server server);
     Task DeleteAsync(Guid id);
 }

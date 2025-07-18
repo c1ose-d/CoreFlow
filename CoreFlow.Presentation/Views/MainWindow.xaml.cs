@@ -1,4 +1,6 @@
-﻿namespace CoreFlow.Presentation.Views;
+﻿using static CoreFlow.Presentation.Interop.NativeMethods;
+
+namespace CoreFlow.Presentation.Views;
 
 public partial class MainWindow : Window
 {
@@ -31,6 +33,14 @@ public partial class MainWindow : Window
         {
             AdjustMaximizedSizeAndPosition(hwnd, lParam);
             handled = true;
+
+            unsafe
+            {
+                var mmi = (MINMAXINFO*)lParam;
+                mmi->ptMinTrackSize.x = (int)MinWidth;
+                mmi->ptMinTrackSize.y = (int)MinHeight;
+            }
+            handled = false;
         }
 
         if (msg == WM_SETTINGCHANGE)
@@ -49,15 +59,15 @@ public partial class MainWindow : Window
     {
         NativeMethods.MINMAXINFO mmi = Marshal.PtrToStructure<NativeMethods.MINMAXINFO>(lParam);
 
-        nint hMonitor = NativeMethods.MonitorFromWindow(hwnd);
+        nint hMonitor = MonitorFromWindow(hwnd);
         if (hMonitor != nint.Zero)
         {
-            NativeMethods.MONITORINFO mi = new()
+            MONITORINFO mi = new()
             {
-                cbSize = (uint)Marshal.SizeOf<NativeMethods.MONITORINFO>()
+                cbSize = (uint)Marshal.SizeOf<MONITORINFO>()
             };
 
-            if (NativeMethods.GetMonitorInfo(hMonitor, ref mi))
+            if (GetMonitorInfo(hMonitor, ref mi))
             {
                 mmi.ptMaxPosition.x = mi.rcWork.Left - mi.rcMonitor.Left;
                 mmi.ptMaxPosition.y = mi.rcWork.Top - mi.rcMonitor.Top;
@@ -75,5 +85,17 @@ public partial class MainWindow : Window
         Color color = light ? Color.FromArgb(228, 0, 0, 0) : Color.FromArgb(255, 255, 255, 255);
 
         Icon = IconHelper.MakeGlyphIcon("\uEF90", color);
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    private struct POINT { public int x, y; }
+    [StructLayout(LayoutKind.Sequential)]
+    private unsafe struct MINMAXINFO
+    {
+        public POINT ptReserved;
+        public POINT ptMaxSize;
+        public POINT ptMaxPosition;
+        public POINT ptMinTrackSize;
+        public POINT ptMaxTrackSize;
     }
 }

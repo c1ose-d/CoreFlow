@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CoreFlow.Infrastructure.Migrations
 {
     [DbContext(typeof(CoreFlowContext))]
-    [Migration("20250711185139_v0.0.0.1")]
-    partial class v0001
+    [Migration("20250715054754_Latest")]
+    partial class Latest
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -52,6 +52,81 @@ namespace CoreFlow.Infrastructure.Migrations
                         .HasDatabaseName("ix_app_systems_name");
 
                     b.ToTable("app_systems", (string)null);
+                });
+
+            modelBuilder.Entity("CoreFlow.Domain.Entities.Server", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<string>("HostName")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("host_name");
+
+                    b.Property<string>("IpAddress")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("ip_address");
+
+                    b.Property<byte[]>("Password")
+                        .IsRequired()
+                        .HasColumnType("bytea")
+                        .HasColumnName("password");
+
+                    b.Property<Guid>("ServerBlockId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("server_block_id");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("user_name");
+
+                    b.HasKey("Id")
+                        .HasName("pk_servers");
+
+                    b.HasIndex("ServerBlockId")
+                        .HasDatabaseName("ix_servers_server_block_id");
+
+                    b.HasIndex("IpAddress", "ServerBlockId")
+                        .HasDatabaseName("ix_servers_ip_address_server_block_id");
+
+                    b.ToTable("servers", (string)null);
+                });
+
+            modelBuilder.Entity("CoreFlow.Domain.Entities.ServerBlock", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<Guid>("AppSystemId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("app_system_id");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("name");
+
+                    b.HasKey("Id")
+                        .HasName("pk_server_blocks");
+
+                    b.HasIndex("AppSystemId")
+                        .HasDatabaseName("ix_server_blocks_app_system_id");
+
+                    b.HasIndex("Name", "AppSystemId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_server_blocks_name_app_system_id");
+
+                    b.ToTable("server_blocks", (string)null);
                 });
 
             modelBuilder.Entity("CoreFlow.Domain.Entities.User", b =>
@@ -123,6 +198,28 @@ namespace CoreFlow.Infrastructure.Migrations
                     b.ToTable("user_app_system", (string)null);
                 });
 
+            modelBuilder.Entity("CoreFlow.Domain.Entities.Server", b =>
+                {
+                    b.HasOne("CoreFlow.Domain.Entities.ServerBlock", "ServerBlock")
+                        .WithMany("Servers")
+                        .HasForeignKey("ServerBlockId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_servers_server_blocks_server_block_id");
+
+                    b.Navigation("ServerBlock");
+                });
+
+            modelBuilder.Entity("CoreFlow.Domain.Entities.ServerBlock", b =>
+                {
+                    b.HasOne("CoreFlow.Domain.Entities.AppSystem", null)
+                        .WithMany()
+                        .HasForeignKey("AppSystemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_server_blocks_app_systems_app_system_id");
+                });
+
             modelBuilder.Entity("CoreFlow.Domain.Entities.UserAppSystem", b =>
                 {
                     b.HasOne("CoreFlow.Domain.Entities.AppSystem", "AppSystem")
@@ -147,6 +244,11 @@ namespace CoreFlow.Infrastructure.Migrations
             modelBuilder.Entity("CoreFlow.Domain.Entities.AppSystem", b =>
                 {
                     b.Navigation("_userAppSystems");
+                });
+
+            modelBuilder.Entity("CoreFlow.Domain.Entities.ServerBlock", b =>
+                {
+                    b.Navigation("Servers");
                 });
 
             modelBuilder.Entity("CoreFlow.Domain.Entities.User", b =>

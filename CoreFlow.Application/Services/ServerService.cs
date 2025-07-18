@@ -1,125 +1,100 @@
 ﻿namespace CoreFlow.Application.Services;
 
-public class ServerService(IServerRepository serverRepository, IServerBlockRepository serverBlockRepository) : IServerService
+public class ServerService(IServerRepository serverRepository, IServerBlockRepository serverBlockRepository, IMapper mapper, IEncryptionService encryptionService) : IServerService
 {
     private readonly IServerRepository _serverRepository = serverRepository;
     private readonly IServerBlockRepository _serverBlockRepository = serverBlockRepository;
+    private readonly IMapper _mapper = mapper;
+    private readonly IEncryptionService _encryptionService = encryptionService;
+
+    private async Task<ServerDto> ToDtoAsync(Guid id)
+    {
+        Server server = await _serverRepository.GetByIdAsync(id) ?? throw new KeyNotFoundException();
+        Guid serverBlockId = server.ServerBlockId;
+
+        ServerBlock? serverBlock = await _serverBlockRepository.GetByIdAsync(serverBlockId) ?? throw new KeyNotFoundException();
+        ServerBlockDto serverBlockDto = _mapper.Map<ServerBlockDto>(await _serverBlockRepository.GetByIdAsync(serverBlockId), opts => opts.Items["IncludeServers"] = false);
+        return new ServerDto(server.Id, server.IpAddress, server.HostName, server.UserName, _encryptionService.Decrypt(server.Password), serverBlockDto);
+    }
 
     public async Task<ServerDto?> GetByIdAsync(Guid id)
     {
-        Server? server = await _serverRepository.GetByIdAsync(id);
-
-        return server == null ? throw new Exception("Server not found.") : new ServerDto
-        {
-            Id = server.Id,
-            IpAddress = server.IpAddress,
-            HostName = server.HostName,
-            UserName = server.UserName,
-            Password = server.Password,
-            BlockId = server.BlockId,
-            ServerBlockDto = server.Block == null ? null : new ServerBlockDto
-            {
-                Id = server.Block.Id,
-                Name = server.Block.Name
-            }
-        };
+        return await ToDtoAsync(id);
     }
 
     public async Task<IReadOnlyCollection<ServerDto>> GetAllAsync()
     {
-        IReadOnlyCollection<Server> servers = await _serverRepository.GetAllAsync();
+        List<Server> servers = await _serverRepository.GetAllAsync();
+        List<ServerDto> serverDtos = new(servers.Count);
 
-        return [.. servers.Select(server => new ServerDto
+        foreach (Server server in servers)
         {
-            Id = server.Id,
-            IpAddress = server.IpAddress,
-            HostName = server.HostName,
-            UserName = server.UserName,
-            Password = server.Password,
-            BlockId = server.BlockId,
-            ServerBlockDto = server.Block == null ? null : new ServerBlockDto
+            serverDtos.Add(await ToDtoAsync(server.Id));
+        }
+
+        return serverDtos;
+    }
+
+    public async Task<IReadOnlyCollection<ServerDto>> SearchAsync(string searchString)
+    {
+        List<Server> servers = await _serverRepository.SearchAsync(searchString);
+        List<ServerDto> serverDtos = new(servers.Count);
+
+        foreach (Server server in servers)
+        {
+            serverDtos.Add(await ToDtoAsync(server.Id));
+        }
+
+        return serverDtos;
+    }
+
+    public async Task<ServerDto> CreateAsync(CreateServerDto dto)
+    {
+        if (await _serverRepository.ExistsByIpAddressServerBlockIdAsync(dto.IpAddress, dto.ServerBlockDto.Id))
+        {
+            throw new InvalidOperationException("Current ip address already in server block.");
+        }
+
+        ServerBlock serverBlock = await _serverBlockRepository.GetByIdAsync(dto.ServerBlockDto.Id) ?? throw new KeyNotFoundException();
+
+        Server server = new(dto.IpAddress, dto.HostName, dto.UserName, _encryptionService.Encrypt(dto.Password), serverBlock);
+
+        await _serverRepository.CreateAsync(server);
+
+        return _mapper.Map<ServerDto>(server, opts => opts.Items["_encryptionService"] = _encryptionService);
+    }
+
+    public async Task<ServerDto> UpdateAsync(UpdateServerDto dto)
+    {
+        Server server = await _serverRepository.GetByIdAsync(dto.Id) ?? throw new Exception("Server block not found.");
+
+        if (dto.IpAddress != null && dto.ServerBlockDto != null)
+        {
+            if (await _serverRepository.ExistsByIpAddressServerBlockIdAsync(dto.IpAddress ?? server.IpAddress, dto.ServerBlockDto?.Id ?? server.ServerBlock.Id))
             {
-                Id = server.Block.Id,
-                Name = server.Block.Name
+                throw new InvalidOperationException("Current ip address already in block.");
             }
-        })];
-    }
-
-    public async Task AddAsync(ServerDto serverDto)
-    {
-        ServerBlock? serverBlock = await _serverBlockRepository.GetByIdAsync(serverDto.BlockId) ?? throw new Exception("Server Block not found.");
-
-        if (serverDto.IpAddress.Length > 200)
-        {
-            throw new Exception("The Ip Address must be no longer than 100 characters.");
         }
 
-        if (serverDto.HostName != null && serverDto.HostName.Length > 200)
+        server.Update(dto.IpAddress, dto.HostName, dto.UserName);
+
+        if (dto.Password != null)
         {
-            throw new Exception("The Host Name must be no longer than 200 characters.");
+            server.ChangePassword(_encryptionService.Encrypt(dto.Password));
         }
 
-        if (serverDto.UserName.Length > 50)
+        if (dto.ServerBlockDto != null)
         {
-            throw new Exception("The Host Name must be no longer than 50 characters.");
+            ServerBlock serverBlock = await _serverBlockRepository.GetByIdAsync(dto.ServerBlockDto.Id) ?? throw new Exception("Server block not found.");
+            server.ChangeServerBlock(serverBlock);
         }
 
-        if (serverDto.Password.Length > 50)
-        {
-            throw new Exception("The Host Name must be no longer than 50 characters.");
-        }
-
-        Server server = new()
-        {
-            IpAddress = serverDto.IpAddress,
-            HostName = serverDto.HostName,
-            UserName = serverDto.UserName,
-            Password = serverDto.Password,
-            Block = serverBlock
-        };
-
-        await _serverRepository.AddAsync(server);
-    }
-
-    public async Task EditAsync(ServerDto serverDto)
-    {
-        Server? server = await _serverRepository.GetByIdAsync(serverDto.Id) ?? throw new Exception("Server not found.");
-
-        if (serverDto.IpAddress.Length > 200)
-        {
-            throw new Exception("The Ip Address must be no longer than 100 characters.");
-        }
-
-        if (serverDto.HostName != null && serverDto.HostName.Length > 200)
-        {
-            throw new Exception("The Host Name must be no longer than 200 characters.");
-        }
-
-        if (serverDto.UserName.Length > 50)
-        {
-            throw new Exception("The Host Name must be no longer than 50 characters.");
-        }
-
-        if (serverDto.Password.Length > 50)
-        {
-            throw new Exception("The Host Name must be no longer than 50 characters.");
-        }
-
-        ServerBlock? serverBlock = await _serverBlockRepository.GetByIdAsync(serverDto.BlockId) ?? throw new Exception("Server Block not found.");
-
-        server.IpAddress = serverDto.IpAddress;
-        server.HostName = serverDto.HostName;
-        server.UserName = serverDto.UserName;
-        server.Password = serverDto.Password;
-        server.Block = serverBlock;
-
-        await _serverRepository.EditAsync(server);
+        await _serverRepository.UpdateAsync(server);
+        return _mapper.Map<ServerDto>(server, opts => opts.Items["_encryptionService"] = _encryptionService);
     }
 
     public async Task DeleteAsync(Guid id)
     {
-        _ = await _serverRepository.GetByIdAsync(id) ?? throw new Exception("Server not found.");
-
         await _serverRepository.DeleteAsync(id);
     }
 }

@@ -55,14 +55,10 @@ public class UserRepository(CoreFlowContext coreFlowContext) : IUserRepository
             .ToListAsync();
     }
 
-    public async Task<List<User>> SearchAsync(string searchString)
+    public async Task<List<User>> SearchAsync()
     {
-        string? lower = !string.IsNullOrWhiteSpace(searchString) ? searchString.ToLower() : string.Empty;
-
         return await _coreFlowContext
             .Users
-            .AsNoTracking()
-            .Where(predicate => EF.Functions.Like($"{predicate.UserName.ToLower()}", $"%{lower}%"))
             .ToListAsync();
     }
 

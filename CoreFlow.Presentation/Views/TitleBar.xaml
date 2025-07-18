@@ -6,6 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="clr-namespace:CoreFlow.Presentation.Controls"
     xmlns:viewmodels="clr-namespace:CoreFlow.Presentation.ViewModels"
+    xmlns:shared="clr-namespace:CoreFlow.Presentation.Resources.Styles.Shared"
     xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance viewmodels:TitleBarViewModel}"
@@ -50,13 +51,29 @@
                     Visibility="{Binding UserVisibility}" />
                 <ComboBox
                     shell:WindowChrome.IsHitTestVisibleInChrome="True"
-                    DisplayMemberPath="ShortName"
                     IsEditable="False"
-                    ItemContainerStyle="{DynamicResource ComboBox.ListItem.TextOnly}"
                     ItemsSource="{Binding SystemDto}"
-                    SelectedIndex="0"
+                    SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
                     Style="{DynamicResource ComboBox}"
-                    Visibility="{Binding UserVisibility}" />
+                    Visibility="{Binding UserVisibility}" >
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock
+                                Margin="5,3"
+                                Style="{DynamicResource BodyTextBlockStyle}"
+                                Text="{Binding ShortName}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                    <ComboBox.ItemContainerStyle>
+                        <Style
+                            BasedOn="{StaticResource ComboBox.ListItem.TextOnly}"
+                            TargetType="{x:Type ComboBoxItem}" >
+                            <Setter
+                                Property="shared:ListItemProperties.Text"
+                                Value="{Binding ShortName}" />
+                        </Style>
+                    </ComboBox.ItemContainerStyle>
+                </ComboBox>
             </controls:Grid>
             <Grid
                 Grid.Column="2" >

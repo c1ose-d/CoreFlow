@@ -3,8 +3,14 @@
 public interface IServerBlockService
 {
     Task<ServerBlockDto?> GetByIdAsync(Guid id);
+    Task<IReadOnlyCollection<ServerBlockDto>> GetByAppSystemIdAsync(Guid appSystemId);
     Task<IReadOnlyCollection<ServerBlockDto>> GetAllAsync();
-    Task AddAsync(ServerBlockDto serverBlockDto);
-    Task EditAsync(ServerBlockDto serverBlockDto);
+
+    Task<IReadOnlyCollection<ServerBlockDto>> SearchAsync(string searchString);
+
+    Task<ServerBlockDto> CreateAsync(CreateServerBlockDto dto);
+
+    Task<ServerBlockDto> UpdateAsync(UpdateServerBlockDto dto);
+
     Task DeleteAsync(Guid id);
 }

@@ -1,20 +1,24 @@
-﻿using CoreFlow.Application.DTOs.AppSystem;
-
-namespace CoreFlow.Presentation.ViewModels;
+﻿namespace CoreFlow.Presentation.ViewModels;
 
 public partial class TitleBarViewModel : ObservableObject
 {
+    private readonly IAppSystemService _appSystemService;
     private readonly IMainWindowService _mainWindowService;
     private readonly ILoginWindowService _loginWindowService;
     private readonly IThemeService _themeService;
+    private readonly ICurrentAppSystemService _currentAppSystemService;
+
+    private readonly string _configFilePath = Path.Combine(AppContext.BaseDirectory, "appsettings.json");
 
     public string MaxRestoreIcon => IsMaximized ? "" : "";
 
-    public TitleBarViewModel(IMainWindowService mainWindowService, ILoginWindowService loginWindowService, IThemeService themeService)
+    public TitleBarViewModel(IAppSystemService appSystemService, IMainWindowService mainWindowService, ILoginWindowService loginWindowService, IThemeService themeService, ICurrentAppSystemService currentAppSystemService)
     {
+        _appSystemService = appSystemService;
         _mainWindowService = mainWindowService;
         _loginWindowService = loginWindowService;
         _themeService = themeService;
+        _currentAppSystemService = currentAppSystemService;
 
         _mainWindowService.StateChanged += () => IsMaximized = _mainWindowService.IsWindowMaximized;
         IsMaximized = _mainWindowService.IsWindowMaximized;
@@ -37,6 +41,9 @@ public partial class TitleBarViewModel : ObservableObject
     private string? _fullName;
 
     [ObservableProperty]
+    private AppSystemDto? _selectedItem;
+
+    [ObservableProperty]
     private ObservableCollection<AppSystemDto> _systemDto = [];
 
     [RelayCommand]
@@ -50,6 +57,21 @@ public partial class TitleBarViewModel : ObservableObject
 
         FullName = UserDto.FullName;
         SystemDto = new ObservableCollection<AppSystemDto>(UserDto.AppSystems);
+
+        if (onLoaded == true)
+        {
+            Guid? appSystemId = null;
+            try
+            {
+                string json = File.ReadAllText(_configFilePath);
+                dynamic jObj = JObject.Parse(json);
+                appSystemId = jObj["AppSystem"];
+                File.WriteAllText(_configFilePath, jObj.ToString());
+            }
+            catch { }
+
+            SelectedItem = SystemDto.FirstOrDefault(predicate => predicate.Id == appSystemId);
+        }
     }
 
     [RelayCommand]
@@ -86,5 +108,13 @@ public partial class TitleBarViewModel : ObservableObject
     partial void OnUserDtoChanged(UserDto? value)
     {
         UserVisibility = value is not null ? Visibility.Visible : Visibility.Collapsed;
+    }
+
+    partial void OnSelectedItemChanged(AppSystemDto? value)
+    {
+        if (value != null)
+        {
+            _currentAppSystemService.SetCurrentAppSystem(value);
+        }
     }
 }

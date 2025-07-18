@@ -10,7 +10,7 @@ public interface IUserRepository
     Task<User?> GetByUserNamePasswordAsync(string userName, string password);
     Task<List<User>> GetAllAsync();
 
-    Task<List<User>> SearchAsync(string searchString);
+    Task<List<User>> SearchAsync();
 
     Task CreateAsync(User user);
 

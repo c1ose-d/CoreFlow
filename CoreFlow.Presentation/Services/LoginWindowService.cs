@@ -1,10 +1,13 @@
 ﻿namespace CoreFlow.Presentation.Services;
 
-public class LoginWindowService(IServiceProvider serviceProvider, IUserService userService, ICurrentUserService currentUserService) : ILoginWindowService
+public class LoginWindowService(IServiceProvider serviceProvider, IUserService userService, IAppSystemService appSystemService, ICurrentUserService currentUserService, ICurrentAppSystemService currentAppSystemService) : ILoginWindowService
 {
     private readonly IServiceProvider _serviceProvider = serviceProvider;
     private readonly IUserService _userService = userService;
+    private readonly IAppSystemService _appSystemService = appSystemService;
     private readonly ICurrentUserService _currentUserService = currentUserService;
+    private readonly ICurrentAppSystemService _currentAppSystemService = currentAppSystemService;
+
     private readonly string _configFilePath = Path.Combine(AppContext.BaseDirectory, "appsettings.json");
 
     public async Task<UserDto?> ShowDialogAsync(bool? onLoaded = false)
@@ -12,24 +15,24 @@ public class LoginWindowService(IServiceProvider serviceProvider, IUserService u
         IServiceScope serviceScope = _serviceProvider.CreateScope();
         IServiceProvider serviceProvider = serviceScope.ServiceProvider;
 
-        Guid? id = null;
+        Guid? userId = null;
         try
         {
             string json = File.ReadAllText(_configFilePath);
             dynamic jObj = JObject.Parse(json);
-            id = jObj["User"];
+            userId = jObj["User"];
             File.WriteAllText(_configFilePath, jObj.ToString());
         }
         catch { }
 
-        UserDto? result;
-        if (id != null)
+        UserDto? user;
+        if (userId != null)
         {
-            result = await _userService.GetByIdAsync((Guid)id);
+            user = await _userService.GetByIdAsync((Guid)userId);
 
-            if (result != null)
+            if (user != null)
             {
-                _currentUserService.SetCurrentUser(result);
+                _currentUserService.SetCurrentUser(user);
             }
         }
 
@@ -41,20 +44,20 @@ public class LoginWindowService(IServiceProvider serviceProvider, IUserService u
             bool? dialogResult = loginWindow.ShowDialog();
             if (dialogResult == true)
             {
-                result = loginWindowViewModel.UserDto;
+                user = loginWindowViewModel.UserDto;
 
-                if (result != null)
+                if (user != null)
                 {
-                    _currentUserService.SetCurrentUser(result);
+                    _currentUserService.SetCurrentUser(user);
                 }
 
-                if (result != null)
+                if (user != null)
                 {
                     try
                     {
                         string json = File.ReadAllText(_configFilePath);
                         dynamic jObj = JObject.Parse(json);
-                        jObj["User"] = result.Id;
+                        jObj["User"] = user.Id;
                         File.WriteAllText(_configFilePath, jObj.ToString());
                     }
                     catch { }

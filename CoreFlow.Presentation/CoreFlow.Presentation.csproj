@@ -27,8 +27,10 @@
   <ItemGroup>
     <Using Include="CommunityToolkit.Mvvm.ComponentModel" />
     <Using Include="CommunityToolkit.Mvvm.Input" />
-    <Using Include="CoreFlow.Application.DTOs" />
     <Using Include="CoreFlow.Application.DTOs.AppSystem" />
+    <Using Include="CoreFlow.Application.DTOs.MonitorNetwork" />
+    <Using Include="CoreFlow.Application.DTOs.Server" />
+    <Using Include="CoreFlow.Application.DTOs.ServerBlock" />
     <Using Include="CoreFlow.Application.DTOs.User" />
     <Using Include="CoreFlow.Application.Interfaces" />
     <Using Include="CoreFlow.Application.Mappings" />
@@ -36,6 +38,7 @@
     <Using Include="CoreFlow.Domain.Interfaces" />
     <Using Include="CoreFlow.Infrastructure.Data" />
     <Using Include="CoreFlow.Infrastructure.Repositories" />
+    <Using Include="CoreFlow.Infrastructure.Services" />
     <Using Include="CoreFlow.Presentation.Interop" />
     <Using Include="CoreFlow.Presentation.Options" />
     <Using Include="CoreFlow.Presentation.Services" />
@@ -51,8 +54,10 @@
     <Using Include="System.Collections" />
     <Using Include="System.Collections.ObjectModel" />
     <Using Include="System.Collections.Specialized" />
+    <Using Include="System.Diagnostics.CodeAnalysis" />
     <Using Include="System.Globalization" />
     <Using Include="System.IO" />
+    <Using Include="System.Reactive.Linq" />
     <Using Include="System.Runtime.InteropServices" />
     <Using Include="System.Windows" />
     <Using Include="System.Windows.Controls" />
@@ -67,12 +72,12 @@
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
     <PackageReference Include="EFCore.NamingConventions" Version="9.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.0-preview.5.25277.114">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.0-preview.6.25358.103">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.0-preview.5.25277.114" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.0-preview.5.25277.114" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.0-preview.6.25358.103" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.0-preview.6.25358.103" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 

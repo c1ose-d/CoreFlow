@@ -3,6 +3,8 @@
 public partial class CoreFlowContext(DbContextOptions<CoreFlowContext> dbContextOptions) : DbContext(dbContextOptions)
 {
     public DbSet<AppSystem> AppSystems => Set<AppSystem>();
+    public DbSet<ServerBlock> ServerBlocks => Set<ServerBlock>();
+    public DbSet<Server> Servers => Set<Server>();
     public DbSet<User> Users => Set<User>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -141,57 +143,6 @@ public partial class CoreFlowContext(DbContextOptions<CoreFlowContext> dbContext
         //    entity.HasOne(d => d.Server).WithMany(p => p.RebootEntries)
         //        .HasForeignKey(d => d.ServerId)
         //        .HasConstraintName("fk_reboot_server");
-        //});
-
-        //modelBuilder.Entity<Server>(entity =>
-        //{
-        //    entity.HasKey(e => e.Id).HasName("server_pkey");
-
-        //    entity.ToTable("server");
-
-        //    entity.HasIndex(e => e.BlockId, "idx_server_block_id");
-
-        //    entity.HasIndex(e => new { e.IpAddress, e.BlockId }, "idx_server_ip_address_block").IsUnique();
-
-        //    entity.Property(e => e.Id)
-        //        .HasDefaultValueSql("gen_random_uuid()")
-        //        .ValueGeneratedOnAdd()
-        //        .HasColumnName("id");
-        //    entity.Property(e => e.BlockId).HasColumnName("block_id");
-        //    entity.Property(e => e.HostName)
-        //        .HasMaxLength(200)
-        //        .HasColumnName("host_name");
-        //    entity.Property(e => e.IpAddress)
-        //        .HasMaxLength(100)
-        //        .HasColumnName("ip_address");
-        //    entity.Property(e => e.Password)
-        //        .HasMaxLength(50)
-        //        .HasColumnName("password");
-        //    entity.Property(e => e.UserName)
-        //        .HasMaxLength(50)
-        //        .HasColumnName("user_name");
-
-        //    entity.HasOne(d => d.Block).WithMany(p => p.Servers)
-        //        .HasForeignKey(d => d.BlockId)
-        //        .HasConstraintName("fk_server_block");
-        //});
-
-        //modelBuilder.Entity<ServerBlock>(entity =>
-        //{
-        //    entity.HasKey(e => e.Id).HasName("server_block_pkey");
-
-        //    entity.ToTable("server_block");
-
-        //    entity.HasIndex(e => new { e.Name, e.SystemId }, "idx_server_block_name_system").IsUnique();
-
-        //    entity.Property(e => e.Id)
-        //        .HasDefaultValueSql("gen_random_uuid()")
-        //        .ValueGeneratedOnAdd()
-        //        .HasColumnName("id");
-        //    entity.Property(e => e.Name)
-        //        .HasMaxLength(200)
-        //        .HasColumnName("name");
-        //    entity.Property(e => e.SystemId).HasColumnName("system_id");
         //});
 
         //modelBuilder.Entity<SystemId>(entity =>

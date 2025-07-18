@@ -1,6 +1,4 @@
-﻿using CoreFlow.Application.DTOs.AppSystem;
-
-namespace CoreFlow.Presentation.ViewModels;
+﻿namespace CoreFlow.Presentation.ViewModels;
 
 public partial class AppSystemsPageViewModel(IAppSystemService appSystemService, INotificationService notificationService, IConfirmationDialogService confirmationDialogService) : ObservableObject, IPageLoadedAware
 {

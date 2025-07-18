@@ -38,11 +38,20 @@ public partial class App : System.Windows.Application
 
             _ = serviceCollection.AddDbContext<CoreFlowContext>(optionsAction => optionsAction.UseNpgsql(hostBuilderContext.Configuration.GetConnectionString("CoreFlow")).UseSnakeCaseNamingConvention());
 
+            _ = serviceCollection.AddScoped<IEncryptionService, DpapiEncryptionService>();
+            _ = serviceCollection.AddSingleton<IPingService, IcmpPingService>();
+
             _ = serviceCollection.AddScoped<IUserRepository, UserRepository>();
             _ = serviceCollection.AddScoped<IAppSystemRepository, AppSystemRepository>();
+            _ = serviceCollection.AddScoped<IServerBlockRepository, ServerBlockRepository>();
+            _ = serviceCollection.AddScoped<IServerRepository, ServerRepository>();
 
             _ = serviceCollection.AddScoped<IUserService, UserService>();
             _ = serviceCollection.AddScoped<IAppSystemService, AppSystemService>();
+            _ = serviceCollection.AddScoped<IServerBlockService, ServerBlockService>();
+            _ = serviceCollection.AddScoped<IServerService, ServerService>();
+
+            _ = serviceCollection.AddScoped<IMonitorNetworkService, MonitorNetworkService>();
 
             _ = serviceCollection.AddScoped<IMainWindowService, MainWindowService>();
             _ = serviceCollection.AddScoped<ILoginWindowService, LoginWindowService>();
@@ -51,6 +60,7 @@ public partial class App : System.Windows.Application
             _ = serviceCollection.AddSingleton<IThemeService, ThemeService>();
 
             _ = serviceCollection.AddSingleton<ICurrentUserService, CurrentUserService>();
+            _ = serviceCollection.AddSingleton<ICurrentAppSystemService, CurrentAppSystemService>();
 
             _ = serviceCollection.AddSingleton<INotificationService, NotificationService>();
 
@@ -71,11 +81,20 @@ public partial class App : System.Windows.Application
             _ = serviceCollection.AddTransient<SettingsPage>();
             _ = serviceCollection.AddTransient<SettingsPageViewModel>();
 
+            _ = serviceCollection.AddTransient<MonitoringsPage>();
+            _ = serviceCollection.AddTransient<MonitoringsPageViewModel>();
+
             _ = serviceCollection.AddTransient<AppSystemsPage>();
             _ = serviceCollection.AddTransient<AppSystemsPageViewModel>();
 
             _ = serviceCollection.AddTransient<UsersPage>();
             _ = serviceCollection.AddTransient<UsersPageViewModel>();
+
+            _ = serviceCollection.AddTransient<ServersPage>();
+            _ = serviceCollection.AddTransient<ServersPageViewModel>();
+
+            _ = serviceCollection.AddTransient<MonitorNetworkPage>();
+            _ = serviceCollection.AddTransient<MonitorNetworkPageViewModel>();
 
             _ = serviceCollection.AddSingleton<FrameNavigationService>();
             _ = serviceCollection.AddSingleton<INavigationService>(implementationFactory => implementationFactory.GetRequiredService<FrameNavigationService>());
@@ -94,8 +113,11 @@ public partial class App : System.Windows.Application
         FrameNavigationService frameNavigationService = serviceProvider.GetRequiredService<FrameNavigationService>();
         frameNavigationService.Initialize(mainWindow.Frame);
         frameNavigationService.Configure("Settings", typeof(SettingsPage), cacheable: false);
-        frameNavigationService.Configure("AppSystems", typeof(AppSystemsPage), cacheable: true);
-        frameNavigationService.Configure("Users", typeof(UsersPage), cacheable: true);
+        frameNavigationService.Configure("Monitorings", typeof(MonitoringsPage), cacheable: false);
+        frameNavigationService.Configure("AppSystems", typeof(AppSystemsPage), cacheable: false);
+        frameNavigationService.Configure("Users", typeof(UsersPage), cacheable: false);
+        frameNavigationService.Configure("Servers", typeof(ServersPage), cacheable: false);
+        frameNavigationService.Configure("MonitorNetwork", typeof(MonitorNetworkPage), cacheable: false);
 
         windowService.Initialize(mainWindow);
         themeService.ApplyTheme();

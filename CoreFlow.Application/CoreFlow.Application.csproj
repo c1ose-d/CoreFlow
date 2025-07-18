@@ -22,19 +22,16 @@
     <Compile Remove="Interfaces\ILinuxBlockService.cs" />
     <Compile Remove="Interfaces\ILinuxCommandService.cs" />
     <Compile Remove="Interfaces\IRebootService.cs" />
-    <Compile Remove="Interfaces\IServerBlockService.cs" />
-    <Compile Remove="Interfaces\IServerService.cs" />
     <Compile Remove="Services\DveBlockService.cs" />
     <Compile Remove="Services\DveIdService.cs" />
     <Compile Remove="Services\LinuxBlockService.cs" />
     <Compile Remove="Services\LinuxCommandService.cs" />
     <Compile Remove="Services\RebootService.cs" />
-    <Compile Remove="Services\ServerBlockService.cs" />
-    <Compile Remove="Services\ServerService.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="15.0.1" />
+    <PackageReference Include="System.Reactive" Version="6.0.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -45,10 +42,14 @@
     <Using Include="AutoMapper" />
     <Using Include="CoreFlow.Application.DTOs" />
     <Using Include="CoreFlow.Application.DTOs.AppSystem" />
+    <Using Include="CoreFlow.Application.DTOs.MonitorNetwork" />
+    <Using Include="CoreFlow.Application.DTOs.Server" />
+    <Using Include="CoreFlow.Application.DTOs.ServerBlock" />
     <Using Include="CoreFlow.Application.DTOs.User" />
     <Using Include="CoreFlow.Application.Interfaces" />
     <Using Include="CoreFlow.Domain.Entities" />
     <Using Include="CoreFlow.Domain.Interfaces" />
+    <Using Include="System.Reactive.Linq" />
   </ItemGroup>
 
 </Project>

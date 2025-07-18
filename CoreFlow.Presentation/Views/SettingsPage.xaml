@@ -7,12 +7,12 @@
     xmlns:shared="clr-namespace:CoreFlow.Presentation.Resources.Styles.Shared"
     xmlns:viewmodels="clr-namespace:CoreFlow.Presentation.ViewModels"
     mc:Ignorable="d"
-    d:DataContext="{d:DesignInstance viewmodels:SideNavViewModel}"
+    d:DataContext="{d:DesignInstance viewmodels:SettingsPageViewModel}"
     d:DesignHeight="450"
     d:DesignWidth="800"
     Title="Настройки" >
     <Border
-        Padding="33,0">
+        Padding="33,0" >
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition
@@ -33,13 +33,21 @@
                     shared:ListItemProperties.Icon="&#xE8EC;"
                     shared:ListItemProperties.Text="Информационные системы"
                     Style="{DynamicResource ListView.ListItem.IconTextCaption.NavPointer}"
-                    Tag="AppSystems" />
+                    Tag="AppSystems"
+                    Visibility="{Binding AdminPanelVisibility}" />
                 <ListViewItem
                     shared:ListItemProperties.Caption="Создание, изменение и удаление пользователей, добавление в группы информационных систем"
                     shared:ListItemProperties.Icon="&#xE716;"
                     shared:ListItemProperties.Text="Пользователи"
                     Style="{DynamicResource ListView.ListItem.IconTextCaption.NavPointer}"
-                    Tag="Users" />
+                    Tag="Users"
+                    Visibility="{Binding AdminPanelVisibility}" />
+                <ListViewItem
+                    shared:ListItemProperties.Caption="Создание, изменение и удаление серверов и групп серверов"
+                    shared:ListItemProperties.Icon="&#xE977;"
+                    shared:ListItemProperties.Text="Сервера"
+                    Style="{DynamicResource ListView.ListItem.IconTextCaption.NavPointer}"
+                    Tag="Servers" />
             </ListView>
         </Grid>
     </Border>

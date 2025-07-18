@@ -1,8 +1,9 @@
 ﻿namespace CoreFlow.Presentation.ViewModels;
 
-public partial class SideNavViewModel(INavigationService navigationService) : ObservableObject
+public partial class SideNavViewModel : ObservableObject
 {
-    private readonly INavigationService _navigationService = navigationService;
+    private readonly INavigationService _navigationService;
+    private readonly ICurrentUserService _currentUserService;
 
     [ObservableProperty]
     private double _navigationWidth = 320;
@@ -15,6 +16,22 @@ public partial class SideNavViewModel(INavigationService navigationService) : Ob
 
     [ObservableProperty]
     private string? _selectedBottomMenuKey;
+
+    [ObservableProperty]
+    private bool _isMenuEnabled;
+
+    public SideNavViewModel(INavigationService navigationService, ICurrentUserService currentUserService)
+    {
+        _navigationService = navigationService;
+        _currentUserService = currentUserService;
+
+        IsMenuEnabled = _currentUserService.GetCurrentUser() != null;
+
+        _currentUserService.CurrentUserChanged += (_, _) =>
+        {
+            IsMenuEnabled = _currentUserService.GetCurrentUser() != null;
+        };
+    }
 
     [RelayCommand]
     private void ChangeWidth()
