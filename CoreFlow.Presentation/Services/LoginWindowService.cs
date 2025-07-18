@@ -1,10 +1,11 @@
 ﻿namespace CoreFlow.Presentation.Services;
 
-public class LoginWindowService(IServiceProvider serviceProvider, IUserService userService, IAppSystemService appSystemService, ICurrentUserService currentUserService, ICurrentAppSystemService currentAppSystemService) : ILoginWindowService
+public class LoginWindowService(IServiceProvider serviceProvider, IUserService userService, IAppSystemService appSystemService, INotificationService notificationService, ICurrentUserService currentUserService, ICurrentAppSystemService currentAppSystemService) : ILoginWindowService
 {
     private readonly IServiceProvider _serviceProvider = serviceProvider;
     private readonly IUserService _userService = userService;
     private readonly IAppSystemService _appSystemService = appSystemService;
+    private readonly INotificationService _notificationService = notificationService;
     private readonly ICurrentUserService _currentUserService = currentUserService;
     private readonly ICurrentAppSystemService _currentAppSystemService = currentAppSystemService;
 
@@ -23,7 +24,10 @@ public class LoginWindowService(IServiceProvider serviceProvider, IUserService u
             userId = jObj["User"];
             File.WriteAllText(_configFilePath, jObj.ToString());
         }
-        catch { }
+        catch (Exception exception)
+        {
+            _notificationService.Show("Login", exception.Message, NotificationType.Critical);
+        }
 
         UserDto? user;
         if (userId != null)
@@ -60,7 +64,10 @@ public class LoginWindowService(IServiceProvider serviceProvider, IUserService u
                         jObj["User"] = user.Id;
                         File.WriteAllText(_configFilePath, jObj.ToString());
                     }
-                    catch { }
+                    catch (Exception exception)
+                    {
+                        _notificationService.Show("Login", exception.Message, NotificationType.Critical);
+                    }
                 }
             }
         }

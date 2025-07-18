@@ -2,5 +2,5 @@
 
 public interface ILoginWindowService
 {
-    Task<UserDto?> ShowDialogAsync(bool? onLoaded);
+    Task<UserDto?> ShowDialogAsync(bool? onLoaded = false);
 }
