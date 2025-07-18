@@ -57,13 +57,23 @@ public partial class MonitorNetworkPageViewModel(IServerBlockService serverBlock
 
         foreach (ServerBlockResultDto dto in serverBlockResultDtos)
         {
-            ServerBlockResultDto? serverBlockResultDto = ServerBlockResultDtos.FirstOrDefault(b => b.Name == dto.Name);
-            if (serverBlockResultDto == null)
+            ServerBlockResultDto? existing = ServerBlockResultDtos.FirstOrDefault(b => b.Name == dto.Name);
+
+            if (existing == null)
             {
-                serverBlockResultDto = new ServerBlockResultDto(dto.Name, dto.Servers, serverBlockResultDto != null ? serverBlockResultDto.IsExpanded : dto.IsExpanded);
-                ServerBlockResultDtos.Add(serverBlockResultDto);
+                ServerBlockResultDtos.Add(dto);
+            }
+            else
+            {
+                ServerBlockResultDto updated = existing with { Servers = dto.Servers };
+                int idx = ServerBlockResultDtos.IndexOf(existing);
+                if (idx >= 0)
+                {
+                    ServerBlockResultDtos[idx] = updated;
+                }
             }
         }
+
     }
 
     public void Dispose()
