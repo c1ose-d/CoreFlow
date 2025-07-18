@@ -72,8 +72,17 @@ public class Grid : System.Windows.Controls.Grid
     private Thickness GetHorizontalMargin(int index, int count)
     {
         double half = Spacing / 2.0;
-        return index == 0
-            ? new Thickness(0, 0, half, 0)
-            : index == count - 1 ? new Thickness(half, 0, 0, 0) : new Thickness(half, 0, half, 0);
+        Thickness margin;
+
+        if (index == 0)
+        {
+            margin = new Thickness(0, 0, half, 0);
+        }
+        else
+        {
+            margin = index == count - 1 ? new Thickness(half, 0, 0, 0) : new Thickness(half, 0, half, 0);
+        }
+
+        return margin;
     }
 }
