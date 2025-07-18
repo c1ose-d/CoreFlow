@@ -6,16 +6,16 @@ public partial class TextBox : UserControl
 
     public string Text
     {
-        get => (string)GetValue(TextProperty);
-        set => SetValue(TextProperty, value);
+        get => (string)this.GetValue(TextProperty);
+        set => this.SetValue(TextProperty, value);
     }
 
     public static readonly DependencyProperty PlaceholderProperty = DependencyProperty.Register(nameof(Placeholder), typeof(string), typeof(TextBox), new PropertyMetadata(string.Empty));
 
     public string Placeholder
     {
-        get => (string)GetValue(PlaceholderProperty);
-        set => SetValue(PlaceholderProperty, value);
+        get => (string)this.GetValue(PlaceholderProperty);
+        set => this.SetValue(PlaceholderProperty, value);
     }
 
     public ICommand ClearCommand { get; }
