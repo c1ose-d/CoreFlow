@@ -32,24 +32,4 @@ public partial class IdBlock
 
         Name = name;
     }
-
-    //public async void MoveToSystemAsync(Guid systemId, IIdBlockRepository idBlockRepository, ISystemRepository systemRepository)
-    //{
-    //    if (SystemId == systemId)
-    //    {
-    //        return;
-    //    }
-
-    //    if (!await systemRepository.ExistsAsync(systemId))
-    //    {
-    //        throw new InvalidOperationException("System not found.");
-    //    }
-
-    //    if (await idBlockRepository.ExistsByNameAndSystemIdAsync(Name, systemId))
-    //    {
-    //        throw new InvalidOperationException("Block already exists in selected system.");
-    //    }
-
-    //    SystemId = systemId;
-    //}
 }

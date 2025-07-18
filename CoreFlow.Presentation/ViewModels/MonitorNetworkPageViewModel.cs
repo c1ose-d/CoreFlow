@@ -71,5 +71,6 @@ public partial class MonitorNetworkPageViewModel(IServerBlockService serverBlock
         _currentAppSystemService.CurrentAppSystemChanged -= CurrentAppSystemChanged;
         _disposable?.Dispose();
         _cancellationTokenSource?.Cancel();
+        _cancellationTokenSource?.Dispose();
     }
 }

@@ -94,7 +94,7 @@ public class ServerBlockService(IServerBlockRepository serverBlockRepository, IS
 
     public async Task<ServerBlockDto> UpdateAsync(UpdateServerBlockDto dto)
     {
-        ServerBlock serverBlock = await _serverBlockRepository.GetByIdAsync(dto.Id) ?? throw new Exception("Server block not found.");
+        ServerBlock serverBlock = await _serverBlockRepository.GetByIdAsync(dto.Id) ?? throw new ArgumentNullException(nameof(dto));
 
         if (await _serverBlockRepository.ExistsByNameAppSystemIdAsync(dto.Name ?? serverBlock.Name, dto.AppSystemId ?? serverBlock.AppSystemId))
         {
@@ -111,7 +111,7 @@ public class ServerBlockService(IServerBlockRepository serverBlockRepository, IS
             }
             else
             {
-                throw new Exception("App system not found.");
+                throw new ArgumentNullException(nameof(dto));
             }
         }
 

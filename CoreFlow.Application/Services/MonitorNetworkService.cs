@@ -4,7 +4,7 @@ public class MonitorNetworkService(IPingService pingService) : IMonitorNetworkSe
 {
     private readonly IPingService _pingService = pingService;
 
-    public IObservable<IEnumerable<ServerBlockResultDto>> StartMonitoring(IEnumerable<ServerBlockDto> serverBlocks, CancellationToken cancellationToken)
+    public IObservable<IEnumerable<ServerBlockResultDto>> StartMonitoring(IEnumerable<ServerBlockDto> targets, CancellationToken cancellationToken = default)
     {
         return Observable
             .Interval(TimeSpan.FromSeconds(5))
@@ -14,7 +14,7 @@ public class MonitorNetworkService(IPingService pingService) : IMonitorNetworkSe
             {
                 List<ServerBlockResultDto> serverBlockResults = [];
 
-                foreach (ServerBlockDto serverBlock in serverBlocks)
+                foreach (ServerBlockDto serverBlock in targets)
                 {
                     var pingTasks = serverBlock.Servers.Select(selector => _pingService.PingAsync(selector.IpAddress).ContinueWith(continuationAction => new { Dto = selector, Status = continuationAction.Result }, TaskScheduler.Default)).ToArray();
 

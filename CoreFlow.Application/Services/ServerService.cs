@@ -12,7 +12,6 @@ public class ServerService(IServerRepository serverRepository, IServerBlockRepos
         Server server = await _serverRepository.GetByIdAsync(id) ?? throw new KeyNotFoundException();
         Guid serverBlockId = server.ServerBlockId;
 
-        ServerBlock? serverBlock = await _serverBlockRepository.GetByIdAsync(serverBlockId) ?? throw new KeyNotFoundException();
         ServerBlockDto serverBlockDto = _mapper.Map<ServerBlockDto>(await _serverBlockRepository.GetByIdAsync(serverBlockId), opts => opts.Items["IncludeServers"] = false);
         return new ServerDto(server.Id, server.IpAddress, server.HostName, server.UserName, _encryptionService.Decrypt(server.Password), serverBlockDto);
     }
