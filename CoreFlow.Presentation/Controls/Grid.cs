@@ -24,43 +24,56 @@ public class Grid : System.Windows.Controls.Grid
         RowDefinitions.Clear();
 
         int count = Children.Count;
-
-        if (count > 1)
+        if (count <= 1)
         {
-            for (int i = 0; i < count; i++)
+            return base.MeasureOverride(constraint);
+        }
+
+        for (int i = 0; i < count; i++)
+        {
+            FrameworkElement child = (FrameworkElement)Children[i];
+            if (Orientation == Orientation.Horizontal)
             {
-                FrameworkElement child = (FrameworkElement)Children[i];
-
-                if (Orientation == Orientation.Horizontal)
-                {
-                    ColumnDefinitions.Add(
-                        new ColumnDefinition()
-                        {
-                            Width = new GridLength(1, GridUnitType.Star)
-                        });
-                    SetColumn(child, i);
-
-                    if (child.HorizontalAlignment != HorizontalAlignment.Stretch)
-                    {
-                        child.HorizontalAlignment = HorizontalAlignment.Stretch;
-                    }
-
-                    child.Margin = i == 0 ? new Thickness(0, 0, (double)Spacing / 2, 0) : i == count - 1 ? new Thickness((double)Spacing / 2, 0, 0, 0) : new Thickness((double)Spacing / 2, 0, (double)Spacing / 2, 0);
-                }
-                else
-                {
-                    RowDefinitions.Add(
-                        new RowDefinition()
-                        {
-                            Height = GridLength.Auto
-                        });
-                    SetRow(child, i);
-
-                    child.Margin = i == 0 ? new Thickness(0, 0, 0, (double)Spacing / 2) : new Thickness(0, (double)Spacing / 2, 0, 0);
-                }
+                SetupHorizontal(child, i, count);
+            }
+            else
+            {
+                SetupVertical(child, i);
             }
         }
 
         return base.MeasureOverride(constraint);
+    }
+
+    private void SetupHorizontal(FrameworkElement child, int index, int count)
+    {
+        ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+        SetColumn(child, index);
+
+        if (child.HorizontalAlignment != HorizontalAlignment.Stretch)
+        {
+            child.HorizontalAlignment = HorizontalAlignment.Stretch;
+        }
+
+        child.Margin = GetHorizontalMargin(index, count);
+    }
+
+    private void SetupVertical(FrameworkElement child, int index)
+    {
+        RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+        SetRow(child, index);
+
+        double half = Spacing / 2.0;
+        child.Margin = index == 0
+            ? new Thickness(0, 0, 0, half)
+            : new Thickness(0, half, 0, 0);
+    }
+
+    private Thickness GetHorizontalMargin(int index, int count)
+    {
+        double half = Spacing / 2.0;
+        return index == 0
+            ? new Thickness(0, 0, half, 0)
+            : index == count - 1 ? new Thickness(half, 0, 0, 0) : new Thickness(half, 0, half, 0);
     }
 }
