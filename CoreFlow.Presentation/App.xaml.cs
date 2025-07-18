@@ -17,6 +17,7 @@ public partial class App : System.Windows.Application
         {
             using IServiceScope serviceScope = host.Services.CreateScope();
             CoreFlowContext coreFlowContext = serviceScope.ServiceProvider.GetRequiredService<CoreFlowContext>();
+            INotificationService notificationService = serviceScope.ServiceProvider.GetRequiredService<INotificationService>();
             try
             {
                 await coreFlowContext.Database.MigrateAsync();
@@ -25,7 +26,7 @@ public partial class App : System.Windows.Application
             }
             catch (Exception exception)
             {
-                Trace.WriteLine(exception.Message);
+                notificationService.Show("База данных", exception.Message, NotificationType.Critical);
             }
         });
 
