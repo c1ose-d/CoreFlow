@@ -1,7 +1,4 @@
-﻿using CoreFlow.Application.DTOs.AppSystem;
-using CoreFlow.Domain.Entities;
-
-namespace CoreFlow.Application.Services;
+﻿namespace CoreFlow.Application.Services;
 
 public class AppSystemService(IAppSystemRepository appSystemRepository, IMapper mapper) : IAppSystemService
 {

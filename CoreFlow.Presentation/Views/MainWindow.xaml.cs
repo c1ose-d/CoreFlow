@@ -36,7 +36,7 @@ public partial class MainWindow : Window
 
             unsafe
             {
-                var mmi = (MINMAXINFO*)lParam;
+                MINMAXINFO* mmi = (MINMAXINFO*)lParam;
                 mmi->ptMinTrackSize.x = (int)MinWidth;
                 mmi->ptMinTrackSize.y = (int)MinHeight;
             }

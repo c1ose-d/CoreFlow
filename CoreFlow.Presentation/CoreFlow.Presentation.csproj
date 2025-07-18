@@ -54,6 +54,7 @@
     <Using Include="System.Collections" />
     <Using Include="System.Collections.ObjectModel" />
     <Using Include="System.Collections.Specialized" />
+    <Using Include="System.Diagnostics" />
     <Using Include="System.Diagnostics.CodeAnalysis" />
     <Using Include="System.Globalization" />
     <Using Include="System.IO" />

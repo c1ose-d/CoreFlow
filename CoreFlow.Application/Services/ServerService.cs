@@ -65,14 +65,11 @@ public class ServerService(IServerRepository serverRepository, IServerBlockRepos
 
     public async Task<ServerDto> UpdateAsync(UpdateServerDto dto)
     {
-        Server server = await _serverRepository.GetByIdAsync(dto.Id) ?? throw new Exception("Server block not found.");
+        Server server = await _serverRepository.GetByIdAsync(dto.Id) ?? throw new ArgumentNullException(nameof(dto));
 
-        if (dto.IpAddress != null && dto.ServerBlockDto != null)
+        if (dto.IpAddress != null && dto.ServerBlockDto != null && await _serverRepository.ExistsByIpAddressServerBlockIdAsync(dto.IpAddress ?? server.IpAddress, dto.ServerBlockDto?.Id ?? server.ServerBlock.Id))
         {
-            if (await _serverRepository.ExistsByIpAddressServerBlockIdAsync(dto.IpAddress ?? server.IpAddress, dto.ServerBlockDto?.Id ?? server.ServerBlock.Id))
-            {
-                throw new InvalidOperationException("Current ip address already in block.");
-            }
+            throw new InvalidOperationException("Current ip address already in block.");
         }
 
         server.Update(dto.IpAddress, dto.HostName, dto.UserName);
@@ -84,7 +81,7 @@ public class ServerService(IServerRepository serverRepository, IServerBlockRepos
 
         if (dto.ServerBlockDto != null)
         {
-            ServerBlock serverBlock = await _serverBlockRepository.GetByIdAsync(dto.ServerBlockDto.Id) ?? throw new Exception("Server block not found.");
+            ServerBlock serverBlock = await _serverBlockRepository.GetByIdAsync(dto.ServerBlockDto.Id) ?? throw new ArgumentNullException(nameof(dto));
             server.ChangeServerBlock(serverBlock);
         }
 

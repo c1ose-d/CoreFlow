@@ -23,7 +23,10 @@ public partial class App : System.Windows.Application
                 await coreFlowContext.Database.OpenConnectionAsync();
                 await coreFlowContext.Database.CloseConnectionAsync();
             }
-            catch { }
+            catch (Exception exception)
+            {
+                Trace.WriteLine(exception.Message);
+            }
         });
 
         ShowWindow<MainWindow>(host);
@@ -106,12 +109,15 @@ public partial class App : System.Windows.Application
         IServiceScope serviceScope = host.Services.CreateScope();
         IServiceProvider serviceProvider = serviceScope.ServiceProvider;
 
-        MainWindow mainWindow = serviceProvider.GetRequiredService<MainWindow>();
+        TWindow window = serviceProvider.GetRequiredService<TWindow>();
         IMainWindowService windowService = serviceProvider.GetRequiredService<IMainWindowService>();
         IThemeService themeService = serviceProvider.GetRequiredService<IThemeService>();
 
         FrameNavigationService frameNavigationService = serviceProvider.GetRequiredService<FrameNavigationService>();
-        frameNavigationService.Initialize(mainWindow.Frame);
+        if (window is MainWindow mainWindow)
+        {
+            frameNavigationService.Initialize(mainWindow.Frame);
+        }
         frameNavigationService.Configure("Settings", typeof(SettingsPage), cacheable: false);
         frameNavigationService.Configure("Monitorings", typeof(MonitoringsPage), cacheable: false);
         frameNavigationService.Configure("AppSystems", typeof(AppSystemsPage), cacheable: false);
@@ -119,10 +125,10 @@ public partial class App : System.Windows.Application
         frameNavigationService.Configure("Servers", typeof(ServersPage), cacheable: false);
         frameNavigationService.Configure("MonitorNetwork", typeof(MonitorNetworkPage), cacheable: false);
 
-        windowService.Initialize(mainWindow);
+        windowService.Initialize(window);
         themeService.ApplyTheme();
 
-        mainWindow.Show();
-        mainWindow.Closed += (_, _) => serviceScope.Dispose();
+        window.Show();
+        window.Closed += (_, _) => serviceScope.Dispose();
     }
 }

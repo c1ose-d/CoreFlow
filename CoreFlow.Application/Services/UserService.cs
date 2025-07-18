@@ -88,14 +88,9 @@ public class UserService(IUserRepository userRepository, IAppSystemRepository sy
         bool isChangeUserName = false;
         if (dto.UserName != null)
         {
-            if (!await _userRepository.ExistsByUserNameNotIdAsync(dto.UserName, user.Id))
-            {
-                isChangeUserName = true;
-            }
-            else
-            {
-                throw new InvalidOperationException("User name already taken.");
-            }
+            isChangeUserName = !await _userRepository.ExistsByUserNameNotIdAsync(dto.UserName, user.Id)
+                ? true
+                : throw new InvalidOperationException("User name already taken.");
         }
 
         user.Update(dto.LastName, dto.FirstName, dto.MiddleName, dto.UserName != null && isChangeUserName ? dto.UserName : null);

@@ -1,6 +1,4 @@
-﻿using CoreFlow.Application.DTOs.AppSystem;
-
-namespace CoreFlow.Application.Interfaces;
+﻿namespace CoreFlow.Application.Interfaces;
 
 public interface IAppSystemService
 {

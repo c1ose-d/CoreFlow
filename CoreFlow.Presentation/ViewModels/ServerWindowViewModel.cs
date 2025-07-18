@@ -1,6 +1,4 @@
-﻿using System.Xml.Linq;
-
-namespace CoreFlow.Presentation.ViewModels;
+﻿namespace CoreFlow.Presentation.ViewModels;
 
 public partial class ServerWindowViewModel : ObservableObject, IWindowLoadedAware
 {

@@ -13,14 +13,14 @@ public partial class ConfirmationWindowViewModel(string body, string title) : Ob
     [RelayCommand]
     public void Confirm()
     {
-        _taskCompletionSource.TrySetResult(true);
+        _ = _taskCompletionSource.TrySetResult(true);
         RequestClose?.Invoke(true);
     }
 
     [RelayCommand]
     public void Cancel()
     {
-        _taskCompletionSource.TrySetResult(false);
+        _ = _taskCompletionSource.TrySetResult(false);
         RequestClose?.Invoke(false);
     }
 }

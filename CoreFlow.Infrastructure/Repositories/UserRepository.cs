@@ -64,14 +64,14 @@ public class UserRepository(CoreFlowContext coreFlowContext) : IUserRepository
 
     public async Task CreateAsync(User user)
     {
-        await _coreFlowContext.Users.AddAsync(user);
-        await _coreFlowContext.SaveChangesAsync();
+        _ = await _coreFlowContext.Users.AddAsync(user);
+        _ = await _coreFlowContext.SaveChangesAsync();
     }
 
     public async Task UpdateAsync(User user)
     {
-        _coreFlowContext.Users.Update(user);
-        await _coreFlowContext.SaveChangesAsync();
+        _ = _coreFlowContext.Users.Update(user);
+        _ = await _coreFlowContext.SaveChangesAsync();
     }
 
     public async Task DeleteAsync(Guid id)
@@ -79,8 +79,8 @@ public class UserRepository(CoreFlowContext coreFlowContext) : IUserRepository
         User? user = await GetByIdAsync(id);
         if (user != null)
         {
-            _coreFlowContext.Users.Remove(user);
-            await _coreFlowContext.SaveChangesAsync();
+            _ = _coreFlowContext.Users.Remove(user);
+            _ = await _coreFlowContext.SaveChangesAsync();
         }
     }
 }

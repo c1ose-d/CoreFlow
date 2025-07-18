@@ -81,7 +81,7 @@ public partial class UserWindowViewModel : ObservableObject, IWindowLoadedAware
         SelectedItems = new ObservableCollection<AppSystemDto>([.. Items.Where(x => _originalSystemIds.Contains(x.Id))]);
         SelectedItems.CollectionChanged += (_, _) =>
         {
-            _dirty.Add(nameof(SelectedItems));
+            _ = _dirty.Add(nameof(SelectedItems));
         };
     }
 

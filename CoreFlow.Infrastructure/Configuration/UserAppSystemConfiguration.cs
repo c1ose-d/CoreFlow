@@ -4,16 +4,16 @@ public class UserAppSystemConfiguration : IEntityTypeConfiguration<UserAppSystem
 {
     public void Configure(EntityTypeBuilder<UserAppSystem> entityTypeBuilder)
     {
-        entityTypeBuilder
+        _ = entityTypeBuilder
             .HasKey(keyExpression => new { keyExpression.UserId, keyExpression.AppSystemId });
 
-        entityTypeBuilder
+        _ = entityTypeBuilder
             .HasOne(navigationExpression => navigationExpression.User)
             .WithMany(navigationExpression => navigationExpression.UserAppSystems)
             .HasForeignKey(navigationExpression => navigationExpression.UserId)
             .OnDelete(DeleteBehavior.Cascade);
 
-        entityTypeBuilder
+        _ = entityTypeBuilder
             .HasOne(navigationExpression => navigationExpression.AppSystem)
             .WithMany("_userAppSystems")
             .HasForeignKey(navigationExpression => navigationExpression.AppSystemId)
