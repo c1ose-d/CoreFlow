@@ -57,14 +57,14 @@ public partial class MainWindow : Window
 
     private static void AdjustMaximizedSizeAndPosition(nint hwnd, nint lParam)
     {
-        NativeMethods.MINMAXINFO mmi = Marshal.PtrToStructure<NativeMethods.MINMAXINFO>(lParam);
+        NativeMethods.MinMaxInfo mmi = Marshal.PtrToStructure<NativeMethods.MinMaxInfo>(lParam);
 
         nint hMonitor = MonitorFromWindow(hwnd);
         if (hMonitor != nint.Zero)
         {
-            MONITORINFO mi = new()
+            MonitorInfo mi = new()
             {
-                cbSize = (uint)Marshal.SizeOf<MONITORINFO>()
+                cbSize = (uint)Marshal.SizeOf<MonitorInfo>()
             };
 
             if (GetMonitorInfo(hMonitor, ref mi))

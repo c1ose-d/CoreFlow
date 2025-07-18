@@ -10,36 +10,36 @@ internal static partial class NativeMethods
 
     [LibraryImport(USER32, EntryPoint = "GetMonitorInfoW", SetLastError = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
-    internal static partial bool GetMonitorInfo(nint hMonitor, ref MONITORINFO lpmi);
+    internal static partial bool GetMonitorInfo(nint hMonitor, ref MonitorInfo lpmi);
 
     [StructLayout(LayoutKind.Sequential)]
-    internal struct POINT
+    internal struct Point
     {
         public int x, y;
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    internal struct MINMAXINFO
+    internal struct MinMaxInfo
     {
-        public POINT ptReserved;
-        public POINT ptMaxSize;
-        public POINT ptMaxPosition;
-        public POINT ptMinTrackSize;
-        public POINT ptMaxTrackSize;
+        public Point ptReserved;
+        public Point ptMaxSize;
+        public Point ptMaxPosition;
+        public Point ptMinTrackSize;
+        public Point ptMaxTrackSize;
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    internal struct RECT
+    internal struct Rect
     {
         public int Left, Top, Right, Bottom;
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    internal struct MONITORINFO
+    internal struct MonitorInfo
     {
         public uint cbSize;
-        public RECT rcMonitor;
-        public RECT rcWork;
+        public Rect rcMonitor;
+        public Rect rcWork;
         public uint dwFlags;
     }
 }

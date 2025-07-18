@@ -31,7 +31,10 @@ public static class TreeViewProperties
             return;
         }
 
-        if (e.NewValue is not null && TrySelectContainer(tree, e.NewValue)) { }
+        if (e.NewValue is not null)
+        {
+            TrySelectContainer(tree, e.NewValue);
+        }
     }
 
     private static bool TrySelectContainer(ItemsControl parent, object itemToSelect)

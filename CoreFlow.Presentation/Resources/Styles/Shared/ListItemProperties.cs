@@ -1,6 +1,6 @@
 ﻿namespace CoreFlow.Presentation.Resources.Styles.Shared;
 
-public class ListItemProperties
+public static class ListItemProperties
 {
     public static readonly DependencyProperty IconProperty = DependencyProperty.RegisterAttached("Icon", typeof(string), typeof(ListItemProperties), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.AffectsMeasure));
 

@@ -1,6 +1,6 @@
 ﻿namespace CoreFlow.Presentation.Resources.Styles.Shared;
 
-public class NavItemProperties
+public static class NavItemProperties
 {
     public static readonly DependencyProperty IconProperty = DependencyProperty.RegisterAttached("Icon", typeof(string), typeof(NavItemProperties), new FrameworkPropertyMetadata(default(ImageSource), FrameworkPropertyMetadataOptions.AffectsRender));
 
