@@ -11,7 +11,7 @@ public class ThemeService(IOptions<ThemeOptions> options) : IThemeService
         ResourceDictionary resourceDictionary = new() { Source = uri };
 
         Collection<ResourceDictionary> merged = System.Windows.Application.Current.Resources.MergedDictionaries;
-        int idx = merged.Select((d, i) => (d, i)).FirstOrDefault(x => x.d.Source?.OriginalString.Contains("/Themes/") == true).i;
+        int idx = merged.Select((d, i) => (d, i)).FirstOrDefault(x => x.d.Source?.OriginalString.Contains("/Themes/") ?? false).i;
         if (idx >= 0)
         {
             merged[idx] = resourceDictionary;
