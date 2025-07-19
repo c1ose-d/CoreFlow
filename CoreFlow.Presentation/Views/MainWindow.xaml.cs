@@ -36,7 +36,7 @@ public partial class MainWindow : Window
 
             unsafe
             {
-                MINMAXINFO* mmi = (MINMAXINFO*)lParam;
+                MinMaxInfo* mmi = (MinMaxInfo*)lParam;
                 mmi->ptMinTrackSize.x = (int)MinWidth;
                 mmi->ptMinTrackSize.y = (int)MinHeight;
             }
@@ -88,14 +88,14 @@ public partial class MainWindow : Window
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    private struct POINT { public int x, y; }
+    private struct Point { public int x, y; }
     [StructLayout(LayoutKind.Sequential)]
-    private unsafe struct MINMAXINFO
+    private unsafe struct MinMaxInfo
     {
-        public POINT ptReserved;
-        public POINT ptMaxSize;
-        public POINT ptMaxPosition;
-        public POINT ptMinTrackSize;
-        public POINT ptMaxTrackSize;
+        public Point ptReserved;
+        public Point ptMaxSize;
+        public Point ptMaxPosition;
+        public Point ptMinTrackSize;
+        public Point ptMaxTrackSize;
     }
 }
