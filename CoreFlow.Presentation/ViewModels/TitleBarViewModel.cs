@@ -2,7 +2,6 @@
 
 public partial class TitleBarViewModel : ObservableObject
 {
-    private readonly IAppSystemService _appSystemService;
     private readonly IMainWindowService _mainWindowService;
     private readonly ILoginWindowService _loginWindowService;
     private readonly IThemeService _themeService;
@@ -14,7 +13,6 @@ public partial class TitleBarViewModel : ObservableObject
 
     public TitleBarViewModel(IAppSystemService appSystemService, IMainWindowService mainWindowService, ILoginWindowService loginWindowService, IThemeService themeService, ICurrentAppSystemService currentAppSystemService)
     {
-        _appSystemService = appSystemService;
         _mainWindowService = mainWindowService;
         _loginWindowService = loginWindowService;
         _themeService = themeService;

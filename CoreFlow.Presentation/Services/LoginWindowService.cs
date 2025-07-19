@@ -14,7 +14,7 @@ public class LoginWindowService(IServiceProvider serviceProvider, IUserService u
     public async Task<UserDto?> ShowDialogAsync(bool? onLoaded = false)
     {
         IServiceScope serviceScope = _serviceProvider.CreateScope();
-        IServiceProvider serviceProvider = serviceScope.ServiceProvider;
+        IServiceProvider service = serviceScope.ServiceProvider;
 
         Guid? userId = null;
         try
@@ -38,7 +38,7 @@ public class LoginWindowService(IServiceProvider serviceProvider, IUserService u
 
         if (onLoaded != true)
         {
-            LoginWindow loginWindow = serviceProvider.GetRequiredService<LoginWindow>();
+            LoginWindow loginWindow = service.GetRequiredService<LoginWindow>();
             LoginWindowViewModel loginWindowViewModel = (LoginWindowViewModel)loginWindow.DataContext;
 
             bool? dialogResult = loginWindow.ShowDialog();

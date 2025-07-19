@@ -94,40 +94,33 @@ public partial class UserWindowViewModel : ObservableObject, IWindowLoadedAware
         string? userName = _dirty.Contains(nameof(UserName)) ? UserName : null;
         string? password = _dirty.Contains(nameof(Password)) ? Password : null;
         bool? isAdmin = _dirty.Contains(nameof(IsAdmin)) ? IsAdmin : null;
-        List<AppSystemDto>? appSystems = _dirty.Contains(nameof(SelectedItems)) ? [.. SelectedItems!] : null;
+        List<Guid>? appSystemIds = _dirty.Contains(nameof(SelectedItems)) ? [.. SelectedItems!.Select(x => x.Id)] : null;
 
         try
         {
+            if (_isEdit && _dirty.Count == 0)
+            {
+                WasSaved = true;
+                RequestClose?.Invoke(false);
+                return;
+            }
+
             if (_isEdit)
             {
-                if (_dirty.Count > 0)
-                {
-                    IReadOnlyCollection<Guid>? appSystemIds = null;
-                    if (appSystems != null)
-                    {
-                        appSystemIds = [.. appSystems.Select(x => x.Id)];
-                    }
-
-                    _ = await _userService.UpdateAsync(new UpdateUserDto(_userDto!.Id, lastName, firstName, middleName, userName, password, isAdmin, appSystemIds));
-                }
-                else
-                {
-                    WasSaved = true;
-                    RequestClose?.Invoke(false);
-                    return;
-                }
+                _ = await _userService.UpdateAsync(new UpdateUserDto(_userDto!.Id, lastName, firstName, middleName, userName, password, isAdmin, appSystemIds));
             }
             else
             {
-                _ = await _userService.CreateAsync(new CreateUserDto(LastName!, FirstName!, MiddleName, UserName!, Password!, (bool)IsAdmin!, [.. SelectedItems!.Select(selector => selector.Id)]));
+                List<Guid> systemIds = [.. SelectedItems!.Select(x => x.Id)];
+                _ = await _userService.CreateAsync(new CreateUserDto(LastName!, FirstName!, MiddleName, UserName!, Password!, (bool)IsAdmin!, systemIds));
             }
 
             WasSaved = true;
             RequestClose?.Invoke(true);
         }
-        catch (Exception exception)
+        catch (Exception ex)
         {
-            _notificationService.Show("База данных", exception.Message, NotificationType.Critical);
+            _notificationService.Show("База данных", ex.Message, NotificationType.Critical);
         }
     }
 
