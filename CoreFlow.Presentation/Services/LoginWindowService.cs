@@ -33,11 +33,7 @@ public class LoginWindowService(IServiceProvider serviceProvider, IUserService u
         if (userId != null)
         {
             user = await _userService.GetByIdAsync((Guid)userId);
-
-            if (user != null)
-            {
-                _currentUserService.SetCurrentUser(user);
-            }
+            _currentUserService.SetCurrentUser(user!);
         }
 
         if (onLoaded != true)
@@ -52,17 +48,13 @@ public class LoginWindowService(IServiceProvider serviceProvider, IUserService u
 
                 if (user != null)
                 {
-                    _currentUserService.SetCurrentUser(user);
-                }
-
-                if (user != null)
-                {
                     try
                     {
                         string json = File.ReadAllText(_configFilePath);
                         dynamic jObj = JObject.Parse(json);
                         jObj["User"] = user.Id;
                         File.WriteAllText(_configFilePath, jObj.ToString());
+                        _currentUserService.SetCurrentUser(user);
                     }
                     catch (Exception exception)
                     {
