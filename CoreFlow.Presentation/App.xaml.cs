@@ -36,73 +36,81 @@ public partial class App : System.Windows.Application
 
     public static IHostBuilder CreateHostBuilder(string[] args)
     {
-        return Host.CreateDefaultBuilder(args).ConfigureServices((hostBuilderContext, serviceCollection) =>
-        {
-            _ = serviceCollection.AddAutoMapper(configAction => configAction.AddProfile<MappingProfile>());
+        return Host.CreateDefaultBuilder(args)
+            .ConfigureAppConfiguration((hostBuilderContext, configurationBuilder) =>
+            {
+                if (hostBuilderContext.HostingEnvironment.IsDevelopment())
+                {
+                    configurationBuilder.AddUserSecrets<App>();
+                }
+            })
+            .ConfigureServices((hostBuilderContext, serviceCollection) =>
+            {
+                _ = serviceCollection.AddAutoMapper(configAction => configAction.AddProfile<MappingProfile>());
 
-            _ = serviceCollection.AddDbContext<CoreFlowContext>(optionsAction => optionsAction.UseNpgsql(hostBuilderContext.Configuration.GetConnectionString("CoreFlow")).UseSnakeCaseNamingConvention());
+                _ = serviceCollection.AddDbContext<CoreFlowContext>(optionsAction => optionsAction.UseNpgsql(hostBuilderContext.Configuration.GetConnectionString("CoreFlow")).UseSnakeCaseNamingConvention());
 
-            _ = serviceCollection.AddScoped<IEncryptionService, DpapiEncryptionService>();
-            _ = serviceCollection.AddSingleton<IPingService, IcmpPingService>();
+                _ = serviceCollection.AddScoped<IEncryptionService, DpapiEncryptionService>();
+                _ = serviceCollection.AddSingleton<IPingService, IcmpPingService>();
 
-            _ = serviceCollection.AddScoped<IUserRepository, UserRepository>();
-            _ = serviceCollection.AddScoped<IAppSystemRepository, AppSystemRepository>();
-            _ = serviceCollection.AddScoped<IServerBlockRepository, ServerBlockRepository>();
-            _ = serviceCollection.AddScoped<IServerRepository, ServerRepository>();
+                _ = serviceCollection.AddScoped<IUserRepository, UserRepository>();
+                _ = serviceCollection.AddScoped<IAppSystemRepository, AppSystemRepository>();
+                _ = serviceCollection.AddScoped<IServerBlockRepository, ServerBlockRepository>();
+                _ = serviceCollection.AddScoped<IServerRepository, ServerRepository>();
 
-            _ = serviceCollection.AddScoped<IUserService, UserService>();
-            _ = serviceCollection.AddScoped<IAppSystemService, AppSystemService>();
-            _ = serviceCollection.AddScoped<IServerBlockService, ServerBlockService>();
-            _ = serviceCollection.AddScoped<IServerService, ServerService>();
+                _ = serviceCollection.AddScoped<IUserService, UserService>();
+                _ = serviceCollection.AddScoped<IAppSystemService, AppSystemService>();
+                _ = serviceCollection.AddScoped<IServerBlockService, ServerBlockService>();
+                _ = serviceCollection.AddScoped<IServerService, ServerService>();
 
-            _ = serviceCollection.AddScoped<IMonitorNetworkService, MonitorNetworkService>();
+                _ = serviceCollection.AddScoped<IMonitorNetworkService, MonitorNetworkService>();
 
-            _ = serviceCollection.AddScoped<IMainWindowService, MainWindowService>();
-            _ = serviceCollection.AddScoped<ILoginWindowService, LoginWindowService>();
+                _ = serviceCollection.AddScoped<IMainWindowService, MainWindowService>();
+                _ = serviceCollection.AddScoped<ILoginWindowService, LoginWindowService>();
 
-            _ = serviceCollection.Configure<ThemeOptions>(hostBuilderContext.Configuration);
-            _ = serviceCollection.AddSingleton<IThemeService, ThemeService>();
+                _ = serviceCollection.Configure<ThemeOptions>(hostBuilderContext.Configuration);
+                _ = serviceCollection.AddSingleton<IThemeService, ThemeService>();
 
-            _ = serviceCollection.AddSingleton<ICurrentUserService, CurrentUserService>();
-            _ = serviceCollection.AddSingleton<ICurrentAppSystemService, CurrentAppSystemService>();
+                _ = serviceCollection.AddSingleton<ICurrentUserService, CurrentUserService>();
+                _ = serviceCollection.AddSingleton<ICurrentAppSystemService, CurrentAppSystemService>();
 
-            _ = serviceCollection.AddSingleton<INotificationService, NotificationService>();
+                _ = serviceCollection.AddSingleton<INotificationService, NotificationService>();
 
-            _ = serviceCollection.AddSingleton<IConfirmationDialogService, ConfirmationDialogService>();
+                _ = serviceCollection.AddSingleton<IConfirmationDialogService, ConfirmationDialogService>();
 
-            _ = serviceCollection.AddTransient<MainWindow>();
-            _ = serviceCollection.AddTransient<MainWindowViewModel>();
+                _ = serviceCollection.AddTransient<MainWindow>();
+                _ = serviceCollection.AddTransient<MainWindowViewModel>();
 
-            _ = serviceCollection.AddTransient<LoginWindow>();
-            _ = serviceCollection.AddTransient<LoginWindowViewModel>();
+                _ = serviceCollection.AddTransient<LoginWindow>();
+                _ = serviceCollection.AddTransient<LoginWindowViewModel>();
 
-            _ = serviceCollection.AddTransient<TitleBar>();
-            _ = serviceCollection.AddTransient<TitleBarViewModel>();
+                _ = serviceCollection.AddTransient<TitleBar>();
+                _ = serviceCollection.AddTransient<TitleBarViewModel>();
 
-            _ = serviceCollection.AddTransient<SideNav>();
-            _ = serviceCollection.AddTransient<SideNavViewModel>();
+                _ = serviceCollection.AddTransient<SideNav>();
+                _ = serviceCollection.AddTransient<SideNavViewModel>();
 
-            _ = serviceCollection.AddTransient<SettingsPage>();
-            _ = serviceCollection.AddTransient<SettingsPageViewModel>();
+                _ = serviceCollection.AddTransient<SettingsPage>();
+                _ = serviceCollection.AddTransient<SettingsPageViewModel>();
 
-            _ = serviceCollection.AddTransient<MonitoringsPage>();
-            _ = serviceCollection.AddTransient<MonitoringsPageViewModel>();
+                _ = serviceCollection.AddTransient<MonitoringsPage>();
+                _ = serviceCollection.AddTransient<MonitoringsPageViewModel>();
 
-            _ = serviceCollection.AddTransient<AppSystemsPage>();
-            _ = serviceCollection.AddTransient<AppSystemsPageViewModel>();
+                _ = serviceCollection.AddTransient<AppSystemsPage>();
+                _ = serviceCollection.AddTransient<AppSystemsPageViewModel>();
 
-            _ = serviceCollection.AddTransient<UsersPage>();
-            _ = serviceCollection.AddTransient<UsersPageViewModel>();
+                _ = serviceCollection.AddTransient<UsersPage>();
+                _ = serviceCollection.AddTransient<UsersPageViewModel>();
 
-            _ = serviceCollection.AddTransient<ServersPage>();
-            _ = serviceCollection.AddTransient<ServersPageViewModel>();
+                _ = serviceCollection.AddTransient<ServersPage>();
+                _ = serviceCollection.AddTransient<ServersPageViewModel>();
 
-            _ = serviceCollection.AddTransient<MonitorNetworkPage>();
-            _ = serviceCollection.AddTransient<MonitorNetworkPageViewModel>();
+                _ = serviceCollection.AddTransient<MonitorNetworkPage>();
+                _ = serviceCollection.AddTransient<MonitorNetworkPageViewModel>();
 
-            _ = serviceCollection.AddSingleton<FrameNavigationService>();
-            _ = serviceCollection.AddSingleton<INavigationService>(implementationFactory => implementationFactory.GetRequiredService<FrameNavigationService>());
-        });
+                _ = serviceCollection.AddSingleton<FrameNavigationService>();
+                _ = serviceCollection.AddSingleton<INavigationService>(implementationFactory => implementationFactory.GetRequiredService<FrameNavigationService>());
+            });
     }
 
     private static void ShowWindow<TWindow>(IHost host) where TWindow : Window

@@ -8,6 +8,7 @@
     <UseWPF>true</UseWPF>
 	<StartupObject>CoreFlow.Presentation.App</StartupObject>
 	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <UserSecretsId>5e745426-cf6d-4014-9b60-7abbf025ddac</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
