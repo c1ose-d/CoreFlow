@@ -88,7 +88,7 @@ public partial class MainWindow : Window
     [StructLayout(LayoutKind.Sequential)]
     private struct Point { public int x, y; }
     [StructLayout(LayoutKind.Sequential)]
-    private unsafe struct MinMaxInfo
+    private struct MinMaxInfo
     {
         public Point ptReserved;
         public Point ptMaxSize;
