@@ -10,7 +10,7 @@ public partial class UserWindowViewModel : ObservableObject, IWindowLoadedAware
 
     private readonly bool _isEdit;
 
-    private UserDto? _userDto;
+    private readonly UserDto? _userDto;
 
     private readonly HashSet<Guid> _originalSystemIds = [];
 
