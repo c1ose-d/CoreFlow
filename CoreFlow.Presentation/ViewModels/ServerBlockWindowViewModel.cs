@@ -20,16 +20,16 @@ public partial class ServerBlockWindowViewModel : ObservableObject, IWindowLoade
     private string _windowTitle;
 
     [ObservableProperty]
-    public ServerBlockDto? _serverBlockDto;
+    private ServerBlockDto? _serverBlockDto;
 
     [ObservableProperty]
-    public string? _name;
+    private string? _name;
 
     [ObservableProperty]
-    public AppSystemDto? _selectedItem;
+    private AppSystemDto? _selectedItem;
 
     [ObservableProperty]
-    public ObservableCollection<AppSystemDto> _items = [];
+    private ObservableCollection<AppSystemDto> _items = [];
 
     public ServerBlockWindowViewModel(IServerBlockService serverBlockService, IUserService userService, ServerBlockDto? serverBlockDto, bool isEdit, INotificationService notificationService, ICurrentUserService currentUserService, ICurrentAppSystemService currentAppSystemService)
     {

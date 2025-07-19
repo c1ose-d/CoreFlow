@@ -10,7 +10,7 @@ public partial class UserWindowViewModel : ObservableObject, IWindowLoadedAware
 
     private readonly bool _isEdit;
 
-    public UserDto? _userDto;
+    private UserDto? _userDto;
 
     private readonly HashSet<Guid> _originalSystemIds = [];
 
@@ -22,25 +22,25 @@ public partial class UserWindowViewModel : ObservableObject, IWindowLoadedAware
     private string _windowTitle;
 
     [ObservableProperty]
-    public string? _lastName;
+    private string? _lastName;
 
     [ObservableProperty]
-    public string? _firstName;
+    private string? _firstName;
 
     [ObservableProperty]
-    public string? _middleName;
+    private string? _middleName;
 
     [ObservableProperty]
-    public string? _userName;
+    private string? _userName;
 
     [ObservableProperty]
-    public string? _password;
+    private string? _password;
 
     [ObservableProperty]
-    public bool? _isAdmin = false;
+    private bool? _isAdmin = false;
 
     [ObservableProperty]
-    public ObservableCollection<AppSystemDto> _selectedItems = [];
+    private ObservableCollection<AppSystemDto> _selectedItems = [];
 
     [ObservableProperty]
     public ObservableCollection<AppSystemDto> _items = [];

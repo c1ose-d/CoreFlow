@@ -19,25 +19,25 @@ public partial class ServerWindowViewModel : ObservableObject, IWindowLoadedAwar
     private string _windowTitle;
 
     [ObservableProperty]
-    public ServerDto? _serverDto;
+    private ServerDto? _serverDto;
 
     [ObservableProperty]
-    public string? _ipAdress;
+    private string? _ipAdress;
 
     [ObservableProperty]
-    public string? _hostName;
+    private string? _hostName;
 
     [ObservableProperty]
-    public string? _userName;
+    private string? _userName;
 
     [ObservableProperty]
-    public string? _password;
+    private string? _password;
 
     [ObservableProperty]
-    public ServerBlockDto? _selectedItem;
+    private ServerBlockDto? _selectedItem;
 
     [ObservableProperty]
-    public ObservableCollection<ServerBlockDto> _items = [];
+    private ObservableCollection<ServerBlockDto> _items = [];
 
     public ServerWindowViewModel(IServerService serverService, IServerBlockService serverBlockService, ServerDto? serverDto, bool isEdit, INotificationService notificationService, ICurrentAppSystemService currentAppSystemService)
     {

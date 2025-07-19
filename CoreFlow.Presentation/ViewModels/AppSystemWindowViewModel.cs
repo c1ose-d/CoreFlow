@@ -15,13 +15,13 @@ public partial class AppSystemWindowViewModel : ObservableObject
     private string _windowTitle;
 
     [ObservableProperty]
-    public AppSystemDto? _appSystemDto;
+    private AppSystemDto? _appSystemDto;
 
     [ObservableProperty]
-    public string? _name;
+    private string? _name;
 
     [ObservableProperty]
-    public string? _shortName;
+    private string? _shortName;
 
     public AppSystemWindowViewModel(IAppSystemService appSystemService, AppSystemDto? appSystemDto, bool isEdit, INotificationService notificationService)
     {
