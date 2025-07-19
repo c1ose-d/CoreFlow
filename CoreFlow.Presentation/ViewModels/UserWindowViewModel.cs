@@ -43,7 +43,7 @@ public partial class UserWindowViewModel : ObservableObject, IWindowLoadedAware
     private ObservableCollection<AppSystemDto> _selectedItems = [];
 
     [ObservableProperty]
-    public ObservableCollection<AppSystemDto> _items = [];
+    private ObservableCollection<AppSystemDto> _items = [];
 
     public UserWindowViewModel(IUserService userService, IAppSystemService appSystemService, UserDto? userDto, bool isEdit, INotificationService notificationService)
     {

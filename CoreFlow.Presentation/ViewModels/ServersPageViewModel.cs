@@ -136,16 +136,9 @@ public partial class ServersPageViewModel : ObservableObject, IPageLoadedAware
             {
                 if (await _confirmationDialogService.Confirm($"Вы уверены, что хотите удалить {serverBlockDto.Name}?", "Подтвердите удаление"))
                 {
-                    try
-                    {
-                        await _serverBlockService.DeleteAsync(serverBlockDto.Id);
-                        _notificationService.Show("Удаление", "Успешно удалено", NotificationType.Success);
-                        await Loaded();
-                    }
-                    catch (Exception exception)
-                    {
-                        _notificationService.Show("Удаление", exception.Message, NotificationType.Critical);
-                    }
+                    await _serverBlockService.DeleteAsync(serverBlockDto.Id);
+                    _notificationService.Show("Удаление", "Успешно удалено", NotificationType.Success);
+                    await Loaded();
                 }
                 else
                 {
@@ -156,16 +149,9 @@ public partial class ServersPageViewModel : ObservableObject, IPageLoadedAware
             {
                 if (await _confirmationDialogService.Confirm($"Вы уверены, что хотите удалить {serverDto.DisplayName}?", "Подтвердите удаление"))
                 {
-                    try
-                    {
-                        await _serverService.DeleteAsync(serverDto.Id);
-                        _notificationService.Show("Удаление", "Успешно удалено", NotificationType.Success);
-                        await Loaded();
-                    }
-                    catch (Exception exception)
-                    {
-                        _notificationService.Show("Удаление", exception.Message, NotificationType.Critical);
-                    }
+                    await _serverService.DeleteAsync(serverDto.Id);
+                    _notificationService.Show("Удаление", "Успешно удалено", NotificationType.Success);
+                    await Loaded();
                 }
                 else
                 {
