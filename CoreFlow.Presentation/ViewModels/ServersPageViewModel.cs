@@ -173,6 +173,9 @@ public partial class ServersPageViewModel : ObservableObject, IPageLoadedAware
                 }
             }
         }
-        catch { }
+        catch (Exception exception)
+        {
+            _notificationService.Show("База данных", exception.Message, NotificationType.Critical);
+        }
     }
 }

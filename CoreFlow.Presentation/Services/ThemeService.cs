@@ -1,7 +1,9 @@
 ﻿namespace CoreFlow.Presentation.Services;
 
-public class ThemeService(IOptions<ThemeOptions> options) : IThemeService
+public class ThemeService(IOptions<ThemeOptions> options, INotificationService notificationService) : IThemeService
 {
+    private readonly INotificationService _notificationService = notificationService;
+
     private readonly ThemeOptions _themeOptions = options.Value;
     private readonly string _configFilePath = Path.Combine(AppContext.BaseDirectory, "appsettings.json");
 
@@ -34,7 +36,10 @@ public class ThemeService(IOptions<ThemeOptions> options) : IThemeService
             jObj["ThemePath"] = _themeOptions.ThemePath;
             File.WriteAllText(_configFilePath, jObj.ToString());
         }
-        catch { }
+        catch (Exception exception)
+        {
+            _notificationService.Show("Тема", exception.Message, NotificationType.Caution);
+        }
 
         ApplyTheme();
     }

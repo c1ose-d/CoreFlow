@@ -4,6 +4,7 @@ public partial class TitleBarViewModel : ObservableObject
 {
     private readonly IMainWindowService _mainWindowService;
     private readonly ILoginWindowService _loginWindowService;
+    private readonly INotificationService _notificationService;
     private readonly IThemeService _themeService;
     private readonly ICurrentAppSystemService _currentAppSystemService;
 
@@ -11,10 +12,11 @@ public partial class TitleBarViewModel : ObservableObject
 
     public string MaxRestoreIcon => IsMaximized ? "" : "";
 
-    public TitleBarViewModel(IAppSystemService appSystemService, IMainWindowService mainWindowService, ILoginWindowService loginWindowService, IThemeService themeService, ICurrentAppSystemService currentAppSystemService)
+    public TitleBarViewModel(IMainWindowService mainWindowService, ILoginWindowService loginWindowService, INotificationService notificationService, IThemeService themeService, ICurrentAppSystemService currentAppSystemService)
     {
         _mainWindowService = mainWindowService;
         _loginWindowService = loginWindowService;
+        _notificationService = notificationService;
         _themeService = themeService;
         _currentAppSystemService = currentAppSystemService;
 
@@ -66,7 +68,10 @@ public partial class TitleBarViewModel : ObservableObject
                 appSystemId = jObj["AppSystem"];
                 File.WriteAllText(_configFilePath, jObj.ToString());
             }
-            catch { }
+            catch (Exception exception)
+            {
+                _notificationService.Show("База данных", exception.Message, NotificationType.Critical);
+            }
 
             SelectedItem = SystemDto.FirstOrDefault(predicate => predicate.Id == appSystemId);
         }
