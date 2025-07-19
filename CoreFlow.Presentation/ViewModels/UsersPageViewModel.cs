@@ -51,7 +51,7 @@ public partial class UsersPageViewModel(IUserService userService, IAppSystemServ
 
         if (userWindow.ShowDialog() == true)
         {
-            _notificationService.Show("База данных", "Успешно добавлено", NotificationType.Success);
+            _notificationService.Show("Добавление", "Успешно добавлено", NotificationType.Success);
             UserDto.Clear();
             UserDto = new ObservableCollection<UserDto>(await _userService.GetAllAsync());
         }
@@ -69,13 +69,13 @@ public partial class UsersPageViewModel(IUserService userService, IAppSystemServ
 
         if (userWindow.ShowDialog() == true)
         {
-            _notificationService.Show("База данных", "Успешно обновлено", NotificationType.Success);
+            _notificationService.Show("Изменение", "Успешно обновлено", NotificationType.Success);
             UserDto.Clear();
             UserDto = new ObservableCollection<UserDto>(await _userService.GetAllAsync());
         }
         else
         {
-            _notificationService.Show("База данных", "Ничего не изменено", NotificationType.Attention);
+            _notificationService.Show("Изменение", "Ничего не изменено", NotificationType.Attention);
         }
     }
 
@@ -87,13 +87,13 @@ public partial class UsersPageViewModel(IUserService userService, IAppSystemServ
             try
             {
                 await _userService.DeleteAsync(SelectedKey.Id);
-                _notificationService.Show("База данных", "Успешно удалено", NotificationType.Success);
+                _notificationService.Show("Удаление", "Успешно удалено", NotificationType.Success);
                 UserDto.Clear();
                 UserDto = new ObservableCollection<UserDto>(await _userService.GetAllAsync());
             }
             catch (Exception exception)
             {
-                _notificationService.Show("База данных", exception.Message, NotificationType.Critical);
+                _notificationService.Show("Удаление", exception.Message, NotificationType.Critical);
             }
         }
         else

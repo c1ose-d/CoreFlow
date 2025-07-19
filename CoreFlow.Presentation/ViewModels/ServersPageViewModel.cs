@@ -70,7 +70,7 @@ public partial class ServersPageViewModel : ObservableObject, IPageLoadedAware
 
         if (serverBlockWindow.ShowDialog() == true)
         {
-            _notificationService.Show("База данных", "Успешно добавлено", NotificationType.Success);
+            _notificationService.Show("Добавление", "Успешно добавлено", NotificationType.Success);
             await Loaded();
         }
     }
@@ -87,7 +87,7 @@ public partial class ServersPageViewModel : ObservableObject, IPageLoadedAware
 
         if (serverWindow.ShowDialog() == true)
         {
-            _notificationService.Show("База данных", "Успешно добавлено", NotificationType.Success);
+            _notificationService.Show("Добавление", "Успешно добавлено", NotificationType.Success);
             await Loaded();
         }
     }
@@ -106,7 +106,7 @@ public partial class ServersPageViewModel : ObservableObject, IPageLoadedAware
 
             if (serverBlockWindow.ShowDialog() == true)
             {
-                _notificationService.Show("База данных", "Успешно обновлено", NotificationType.Success);
+                _notificationService.Show("Изменение", "Успешно обновлено", NotificationType.Success);
                 await Loaded();
             }
         }
@@ -121,7 +121,7 @@ public partial class ServersPageViewModel : ObservableObject, IPageLoadedAware
 
             if (serverWindow.ShowDialog() == true)
             {
-                _notificationService.Show("База данных", "Успешно обновлено", NotificationType.Success);
+                _notificationService.Show("Изменение", "Успешно обновлено", NotificationType.Success);
                 await Loaded();
             }
         }
@@ -139,12 +139,12 @@ public partial class ServersPageViewModel : ObservableObject, IPageLoadedAware
                     try
                     {
                         await _serverBlockService.DeleteAsync(serverBlockDto.Id);
-                        _notificationService.Show("База данных", "Успешно удалено", NotificationType.Success);
+                        _notificationService.Show("Удаление", "Успешно удалено", NotificationType.Success);
                         await Loaded();
                     }
                     catch (Exception exception)
                     {
-                        _notificationService.Show("База данных", exception.Message, NotificationType.Critical);
+                        _notificationService.Show("Удаление", exception.Message, NotificationType.Critical);
                     }
                 }
                 else
@@ -159,12 +159,12 @@ public partial class ServersPageViewModel : ObservableObject, IPageLoadedAware
                     try
                     {
                         await _serverService.DeleteAsync(serverDto.Id);
-                        _notificationService.Show("База данных", "Успешно удалено", NotificationType.Success);
+                        _notificationService.Show("Удаление", "Успешно удалено", NotificationType.Success);
                         await Loaded();
                     }
                     catch (Exception exception)
                     {
-                        _notificationService.Show("База данных", exception.Message, NotificationType.Critical);
+                        _notificationService.Show("Удаление", exception.Message, NotificationType.Critical);
                     }
                 }
                 else
