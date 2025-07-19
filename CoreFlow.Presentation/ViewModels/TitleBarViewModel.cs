@@ -10,7 +10,7 @@ public partial class TitleBarViewModel : ObservableObject
 
     private readonly string _configFilePath = Path.Combine(AppContext.BaseDirectory, "appsettings.json");
 
-    private string MaxRestoreIcon => this.IsMaximized ? "" : "";
+    public string MaxRestoreIcon => this.IsMaximized ? "" : "";
 
     public TitleBarViewModel(IMainWindowService mainWindowService, ILoginWindowService loginWindowService, INotificationService notificationService, IThemeService themeService, ICurrentAppSystemService currentAppSystemService)
     {

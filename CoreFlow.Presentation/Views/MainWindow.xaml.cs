@@ -32,15 +32,13 @@ public partial class MainWindow : Window
         if (msg == WM_GETMINMAXINFO)
         {
             AdjustMaximizedSizeAndPosition(hwnd, lParam);
-            handled = true;
 
-            unsafe
-            {
-                MinMaxInfo* mmi = (MinMaxInfo*)lParam;
-                mmi->ptMinTrackSize.x = (int)MinWidth;
-                mmi->ptMinTrackSize.y = (int)MinHeight;
-            }
-            handled = false;
+            var mmi = Marshal.PtrToStructure<MinMaxInfo>(lParam)!;
+            mmi.ptMinTrackSize.x = (int)MinWidth;
+            mmi.ptMinTrackSize.y = (int)MinHeight;
+            Marshal.StructureToPtr(mmi, lParam, fDeleteOld: false);
+
+            handled = true;
         }
 
         if (msg == WM_SETTINGCHANGE)
