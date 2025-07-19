@@ -4,7 +4,7 @@ namespace CoreFlow.Presentation.Views;
 
 public partial class MainWindow : Window
 {
-    public Frame Frame => FrameControl;
+    public Frame Frame => this.FrameControl;
 
     public MainWindow(MainWindowViewModel mainWindowViewModel, TitleBar titleBar, SideNav sideNav)
     {

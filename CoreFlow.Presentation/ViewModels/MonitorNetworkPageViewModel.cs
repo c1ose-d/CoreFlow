@@ -49,27 +49,27 @@ public partial class MonitorNetworkPageViewModel(IServerBlockService serverBlock
 
     private void UpdateBlocks(IEnumerable<ServerBlockResultDto> serverBlockResultDtos)
     {
-        List<ServerBlockResultDto> toRemove = [.. ServerBlockResultDtos.Where(vm => serverBlockResultDtos.All(d => d.Name != vm.Name))];
+        List<ServerBlockResultDto> toRemove = [.. this.ServerBlockResultDtos.Where(vm => serverBlockResultDtos.All(d => d.Name != vm.Name))];
         foreach (ServerBlockResultDto? old in toRemove)
         {
-            _ = ServerBlockResultDtos.Remove(old);
+            _ = this.ServerBlockResultDtos.Remove(old);
         }
 
         foreach (ServerBlockResultDto dto in serverBlockResultDtos)
         {
-            ServerBlockResultDto? existing = ServerBlockResultDtos.FirstOrDefault(b => b.Name == dto.Name);
+            ServerBlockResultDto? existing = this.ServerBlockResultDtos.FirstOrDefault(b => b.Name == dto.Name);
 
             if (existing == null)
             {
-                ServerBlockResultDtos.Add(dto);
+                this.ServerBlockResultDtos.Add(dto);
             }
             else
             {
                 ServerBlockResultDto updated = existing with { Servers = dto.Servers };
-                int idx = ServerBlockResultDtos.IndexOf(existing);
+                int idx = this.ServerBlockResultDtos.IndexOf(existing);
                 if (idx >= 0)
                 {
-                    ServerBlockResultDtos[idx] = updated;
+                    this.ServerBlockResultDtos[idx] = updated;
                 }
             }
         }
